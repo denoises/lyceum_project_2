@@ -1,53 +1,41 @@
 import pygame
-import sys
-import os
+from pygame.locals import *
 
-
-def load_image(name, colorkey=None):
-    fullname = os.path.join('', name)
-    # если файл не существует, то выходим
-    if not os.path.isfile(fullname):
-        print(f"Файл с изображением '{fullname}' не найден")
-        sys.exit()
-    try:
-        image = pygame.image.load(fullname)
-    except pygame.error as Message:
-        print(Message)
-        raise SystemExit(Message)
-    if colorkey is not None:
-        image = image.convert()
-        if colorkey == -1:
-            colorkey = image.get_at((0, 0))
-        image.set_colorkey(colorkey)
-    else:
-        image = image.convert_alpha()
-    return image
-
-
-def main():
-    running = True
-    pygame.init()
-    size = width, height = 1920, 1080
-    screen = pygame.display.set_mode(size)
-    image_cursor = load_image('image/navigate.png')
-    image_cur = pygame.transform.scale(image_cursor, (25, 25))
-    cursor = pygame.sprite.Sprite()
-    cursor.image = image_cur
-    cursor.rect = cursor.image.get_rect()
-    all_sprites = pygame.sprite.Group()
-    all_sprites.add(cursor)
-    pygame.mouse.set_visible(False)
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.MOUSEMOTION:
-                cursor.rect.topleft = event.pos
-            screen.fill((255, 255, 255))
-            all_sprites.draw(screen)
-            pygame.display.flip()
-    pygame.quit()
-
-
-if __name__ == '__main__':
-    main()
+pygame.init()
+window = pygame.display.set_mode((1920, 1080))
+pygame.display.set_caption('AxeMan')
+clock = pygame.time.Clock()
+direction = True
+image = [pygame.image.load(r'image/low_settings/person/right/right0001.png'),
+         pygame.image.load(r'image/low_settings/person/left/left0001.png')]
+x = 100
+y = 100
+person_speed = 20
+run = True
+while run:
+    clock.tick(60)
+    window.fill((255, 255, 255))
+    if direction == True:
+        window.blit(image[0], (x, y))
+    if direction == False:
+        window.blit(image[1], (x, y))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+            pygame.quit()
+            quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                direction = True
+            elif event.key == pygame.K_LEFT:
+                direction = False
+    key_pressed_is = pygame.key.get_pressed()
+    if key_pressed_is[K_LEFT] and x >= -40:
+        x -= person_speed
+    if key_pressed_is[K_RIGHT] and x <= 1700:
+        x += person_speed
+    if key_pressed_is[K_UP] and y > -100:
+        y -= person_speed
+    if key_pressed_is[K_DOWN] and y < 970:
+        y += person_speed
+    pygame.display.update()
