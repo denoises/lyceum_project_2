@@ -2,8 +2,11 @@ import pygame
 import sys
 import os
 
+
+
+
 pygame.init()
-size = width, height = 1920, 1080
+size = width, height = 800, 800
 screen = pygame.display.set_mode(size)
 all_sprites = pygame.sprite.Group()
 horizontal_borders = pygame.sprite.Group()
@@ -12,39 +15,6 @@ clock = pygame.time.Clock()
 
 FPS = 60
 
-
-def terminate():
-    pygame.quit()
-    sys.exit()
-
-
-def start_screen():
-    intro_text = ["Ваша цель - выжить в этом лесу",
-                  "(Нажмите любую кнопку чтобы начать игру)", ""
-                  ]
-
-    fon = pygame.transform.scale(load_image('image/axeman.png'), (1920, 1080))
-    screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
-    for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
-        intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 10
-        text_coord += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                terminate()
-            elif event.type == pygame.KEYDOWN or \
-                    event.type == pygame.MOUSEBUTTONDOWN:
-                return  # начинаем игру
-        pygame.display.flip()
-        clock.tick(FPS)
 
 
 def load_image(name, colorkey=None):
@@ -78,48 +48,47 @@ walkRight = [load_image('image/low_settings/person/right/right0001.png'),
              load_image('image/low_settings/person/right/right0008.png'),
              load_image('image/low_settings/person/right/right0009.png'),
              load_image('image/low_settings/person/right/right0010.png'),
-             load_image('image/low_settings/person/right/right0011.png'),
-             load_image('image/low_settings/person/right/right0012.png'),
-             load_image('image/low_settings/person/right/right0013.png'),
-             load_image('image/low_settings/person/right/right0014.png'),
-             load_image('image/low_settings/person/right/right0015.png'),
-             load_image('image/low_settings/person/right/right0016.png'),
-             load_image('image/low_settings/person/right/right0017.png'),
-             load_image('image/low_settings/person/right/right0018.png'),
-             load_image('image/low_settings/person/right/right0019.png'),
-             load_image('image/low_settings/person/right/right0020.png'),
-             load_image('image/low_settings/person/right/right0021.png'),
-             load_image('image/low_settings/person/right/right0022.png'),
-             load_image('image/low_settings/person/right/right0023.png'),
-             load_image('image/low_settings/person/right/right0024.png'),
-             load_image('image/low_settings/person/right/right0025.png'),
-             load_image('image/low_settings/person/right/right0026.png'),
-             load_image('image/low_settings/person/right/right0027.png'),
-             load_image('image/low_settings/person/right/right0028.png'),
-             load_image('image/low_settings/person/right/right0029.png'),
-             load_image('image/low_settings/person/right/right0030.png'),
-             load_image('image/low_settings/person/right/right0031.png'),
-             load_image('image/low_settings/person/right/right0032.png'),
-             load_image('image/low_settings/person/right/right0033.png'),
-             load_image('image/low_settings/person/right/right0034.png'),
-             load_image('image/low_settings/person/right/right0035.png'),
-             load_image('image/low_settings/person/right/right0036.png'),
-             load_image('image/low_settings/person/right/right0037.png'),
-             load_image('image/low_settings/person/right/right0038.png'),
-             load_image('image/low_settings/person/right/right0039.png'),
-             load_image('image/low_settings/person/right/right0040.png'),
-             load_image('image/low_settings/person/right/right0041.png'),
-             load_image('image/low_settings/person/right/right0042.png'),
-             load_image('image/low_settings/person/right/right0043.png'),
-             load_image('image/low_settings/person/right/right0044.png'),
-             load_image('image/low_settings/person/right/right0045.png'),
-             load_image('image/low_settings/person/right/right0046.png'),
-             load_image('image/low_settings/person/right/right0047.png'),
-             load_image('image/low_settings/person/right/right0048.png'),
-             load_image('image/low_settings/person/right/right0049.png'),
-             load_image('image/low_settings/person/right/right0050.png'),
+             # load_image('image/low_settings/person/right/right0011.png'),
+             # load_image('image/low_settings/person/right/right0012.png'),
+             # load_image('image/low_settings/person/right/right0013.png'),
+             # load_image('image/low_settings/person/right/right0014.png'),
+             # load_image('image/low_settings/person/right/right0015.png'),
+             # load_image('image/low_settings/person/right/right0016.png'),
+             # load_image('image/low_settings/person/right/right0017.png'),
+             # load_image('image/low_settings/person/right/right0018.png'),
+             # load_image('image/low_settings/person/right/right0019.png'),
+             # load_image('image/low_settings/person/right/right0020.png'),
+             # load_image('image/low_settings/person/right/right0021.png'),
+             # load_image('image/low_settings/person/right/right0022.png'),
+             # load_image('image/low_settings/person/right/right0023.png'),
+             # load_image('image/low_settings/person/right/right0024.png'),
+             # load_image('image/low_settings/person/right/right0025.png'),
+             # load_image('image/low_settings/person/right/right0026.png'),
+             # load_image('image/low_settings/person/right/right0027.png'),
+             # load_image('image/low_settings/person/right/right0028.png'),
+             # load_image('image/low_settings/person/right/right0029.png'),
+             # load_image('image/low_settings/person/right/right0030.png'),
+             # load_image('image/low_settings/person/right/right0031.png'),
+             # load_image('image/low_settings/person/right/right0032.png'),
+             # load_image('image/low_settings/person/right/right0033.png'),
+             # load_image('image/low_settings/person/right/right0034.png'),
+             # load_image('image/low_settings/person/right/right0035.png'),
+             # load_image('image/low_settings/person/right/right0036.png'),
+             # load_image('image/low_settings/person/right/right0037.png'),
+             # load_image('image/low_settings/person/right/right0038.png'),
+             # load_image('image/low_settings/person/right/right0039.png'),
+             # load_image('image/low_settings/person/right/right0040.png'),
+             # load_image('image/low_settings/person/right/right0041.png'),
+             # load_image('image/low_settings/person/right/right0042.png'),
+             # load_image('image/low_settings/person/right/right0043.png'),
+             # load_image('image/low_settings/person/right/right0044.png'),
+             # load_image('image/low_settings/person/right/right0045.png'),
+             # load_image('image/low_settings/person/right/right0046.png'),
+             # load_image('image/low_settings/person/right/right0047.png'),
+             # load_image('image/low_settings/person/right/right0048.png'),
+             # load_image('image/low_settings/person/right/right0049.png'),
+             # load_image('image/low_settings/person/right/right0050.png'),
              ]
-
 
 animCount = 0
 
@@ -136,7 +105,6 @@ run = True
 
 while run:
     # pygame.time.delay()
-    clock.tick(50)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
@@ -159,12 +127,10 @@ while run:
         animCount = 0
 
 
+
 def main():  # исование основного окна
 
     global animCount  # анимация персонажа
-
-    size = width, height = 1920, 1080
-    start_screen()
     # level_map = load_level('map.map')
     # hero, max_x, max_y = generate_level(level_map)
     running = True
@@ -173,7 +139,6 @@ def main():  # исование основного окна
     x = 0
     f = True
 
-    screen = pygame.display.set_mode(size)
 
     # КУРСОР
     image_cursor = load_image('image/navigate.png')
@@ -184,8 +149,6 @@ def main():  # исование основного окна
     all_sprites = pygame.sprite.Group()
     all_sprites.add(cursor)
     pygame.mouse.set_visible(False)
-
-
 
     while running:
         if x + 200 > 500:
@@ -206,8 +169,9 @@ def main():  # исование основного окна
         screen.fill((255, 255, 255))
         all_sprites.draw(screen)
         all_sprites.update()
-        clock.tick(50)
-        if animCount + 1 >= 50:  # фотки кончились - пора повторять!
+
+        clock.tick(30)
+        if animCount + 1 >= 10:  # фотки кончились - пора повторять!
             animCount = 0
 
         if right:
@@ -215,9 +179,11 @@ def main():  # исование основного окна
             animCount += 1
         elif left:
             pass
+        else:
+            screen.blit('image/low_settings/person/down/down0001.png', (x_pers, y_pers))
         pygame.display.flip()
 
     pygame.quit()
 
 
-main()
+
