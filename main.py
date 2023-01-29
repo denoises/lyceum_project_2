@@ -22,7 +22,7 @@ tiles_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
 
-def load_image(name, colorkey=None):
+def load_image(name, colorkey=None):  # поиск картинки
     fullname = os.path.join('data', name)
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):
@@ -60,7 +60,7 @@ class Tile(pygame.sprite.Sprite):
             tile_width * pos_x, tile_height * pos_y)
 
 
-class Player(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite):  # класс игрока
     def __init__(self, pos_x, pos_y):
         super().__init__(player_group, all_sprites)
         self.image = player_image
@@ -78,7 +78,7 @@ class Player(pygame.sprite.Sprite):
             pass
 
 
-def generate_level(level):
+def generate_level(level):  # создание левола
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
@@ -135,7 +135,9 @@ def start_screen():
         pygame.display.flip()
         clock.tick(FPS)
 
+
 hero, max_x, max_y = generate_level(level_map)
+
 
 def move(hero, moves, level_map):
     x, y = hero.pos
