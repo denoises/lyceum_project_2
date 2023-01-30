@@ -160,7 +160,7 @@ class MySprite(pygame.sprite.Sprite):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHT:
                         direction = True
-                    elif event.key  == pygame.K_LEFT:
+                    elif event.key == pygame.K_LEFT:
                         direction = False
             key_pressed_is = pygame.key.get_pressed()
             if key_pressed_is[K_LEFT] and self.x >= -40:
