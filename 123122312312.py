@@ -117,7 +117,7 @@ def cursor():  # курсор
     pygame.mouse.set_visible(False)
 
 
-class Tree_class:
+class Tree_class: # это что, елка?
     def __init__(self, min_x_tree, max_x_tree, min_y_tree, max_y_tree):
         self.min_x_tree = min_x_tree
         self.max_x_tree = max_x_tree
