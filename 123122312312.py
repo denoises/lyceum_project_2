@@ -46,7 +46,7 @@ class Board:
         for y in range(self.height):
             for x in range(self.width):
                 img_ground = sp_ground[random.randint(0, 9)]
-                small_img_ground = pygame.transform.scale(img_ground, (60, 60))
+                small_img_ground = pygame.transform.scale(img_ground, (150, 150))
                 screen.blit(small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                self.cell_size, self.cell_size))
 
@@ -119,8 +119,8 @@ def cursor():  # курсор
 
 def main():
     start_screen()
-    board = Board(33, 18)
-    board.set_view(0, 0, 60)
+    board = Board(18, 9)
+    board.set_view(0, 0, 150)
     running = True
     pygame.init()
     size = width, height = 1920, 1080
