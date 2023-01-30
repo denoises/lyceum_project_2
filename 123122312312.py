@@ -117,37 +117,60 @@ def cursor():  # курсор
     pygame.mouse.set_visible(False)
 
 
-def tree():
-    tree_image = [pygame.image.load('image/low_settings/tree/el0001.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0002.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0003.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0004.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0005.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0006.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0007.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0008.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0009.png').convert_alpha(),
-                  pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
-                  ]
+class Tree_class:
+    def __init__(self, min_x_tree, max_x_tree, min_y_tree, max_y_tree):
+        self.min_x_tree = min_x_tree
+        self.max_x_tree = max_x_tree
+        self.min_y_tree = min_y_tree
+        self.max_y_tree = max_y_tree
 
-    max_y_tree = 0
-    min_y_tree = 1080
-    max_x_tree = 1920
-    min_x_tree = 0
-    cal_tree_max = 50
-    cal_tree_now = 0
+    def tree(self, screen):
+        tree_image = [pygame.image.load('image/low_settings/tree/el0001.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0002.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0003.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0004.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0005.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0006.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0007.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0008.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0009.png').convert_alpha(),
+                      pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
+                      ]
 
-    while cal_tree_now < cal_tree_max:
-        tree_image_random = tree_image[random.randint(0, 9)]
-        tree_image_random_scale = pygame.transform.scale(tree_image_random, (400, 400))
-        screen.blit(tree_image_random_scale,
-                    (random.randint(min_x_tree, max_x_tree), random.randint(min_y_tree, max_y_tree)))
+        # max_y_tree = 0
+        # min_y_tree = 1080
+        # max_x_tree = 1920
+        # min_x_tree = 0
+        cal_tree_max = 200
+        cal_tree_now = 0
+
+        while cal_tree_now < cal_tree_max:
+            tree_image_random = tree_image[random.randint(0, 9)]
+            a = random.randint(300, 430)
+            tree_image_random_scale = pygame.transform.scale(tree_image_random, (a, a))
+
+            proverka = 0
+            while proverka == 0:
+                random_y_cooord = random.randint(-300, 1080)
+                random_x_cooord = random.randint(-300, 1920)
+                if 500 < random_x_cooord < 1100 and 150 < random_y_cooord < 650:
+                    proverka = 0
+                else:
+                    proverka = 1
+
+            screen.blit(tree_image_random_scale,
+                        (random_x_cooord, random_y_cooord))
+            cal_tree_now += 1
 
 
 def main():
     start_screen()
+
     board = Board(18, 9)
+
     board.set_view(0, 0, 150)
+    treeeeee = Tree_class(0, 1920, 1080, 0)
+
     running = True
     pygame.init()
     size = width, height = 1920, 1080
@@ -155,6 +178,7 @@ def main():
     run_gr = True
     while run_gr:
         board.render(screen)
+        treeeeee.tree(screen)
         run_gr = False
     while running:
         for event in pygame.event.get():
