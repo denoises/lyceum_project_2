@@ -19,9 +19,9 @@ def terminate():
 
 
 def start_screen():
-    intro_text = ["Ваша цель - выжить в этом лесу",
-                  "(Нажмите любую кнопку чтобы начать игру)", ""
-                  ]
+    intro_text = ("Ваша цель - выжить в этом лесу",
+                  '(Нажмите любую кнопку чтобы начать игру)', ""
+                  )
 
     fon = pygame.transform.scale(load_image('image/axeman.png'), (1920, 1080))
     screen.blit(fon, (0, 0))
