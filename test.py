@@ -1,32 +1,29 @@
 import pygame
 from pygame.locals import *
 
-FPS = 60
-x = 100
-y = 100
-left = False
-right = False
-up = False
-down = False
-person_speed = 20
-run = True
-animCount = 0
-
 pygame.init()
-images_person_right_im = []
-images_person_left_im = []
 
 
 class MySprite(pygame.sprite.Sprite):
     def __init__(self):
         super(MySprite, self).__init__()
 
-        global animCount, images_person_left_im, images_person_right_im
+        self.FPS = 60
+        self.x = 100
+        self.y = 100
+        self.left = False
+        self.right = False
+        self.up = False
+        self.down = False
+        self.person_speed = 20
+        self.run = True
+        self.animCount = 0
+
         self.rect = pygame.Rect(5, 5, 150, 198)
         pygame.display.set_caption('AxeMan')
 
-        image = [pygame.image.load(r'image/low_settings/person/right/right0001.png'),
-                 pygame.image.load(r'image/low_settings/person/left/left0001.png')]
+        # image = [pygame.image.load(r'image/low_settings/person/right/right0001.png'),
+        #          pygame.image.load(r'image/low_settings/person/left/left0001.png')]
         self.images_person_right = [pygame.image.load('image/low_settings/person/right/right0001.png'),
                                     pygame.image.load('image/low_settings/person/right/right0002.png'),
                                     pygame.image.load('image/low_settings/person/right/right0003.png'),
@@ -128,60 +125,53 @@ class MySprite(pygame.sprite.Sprite):
                                    pygame.image.load('image/low_settings/person/left/left0049.png'),
                                    pygame.image.load('image/low_settings/person/left/left0050.png'), ]
 
-        images_person_right_im = self.images_person_right[animCount]
-        images_person_left_im = self.images_person_left[animCount]
-
         self.rect = pygame.Rect(5, 5, 150, 198)
 
     def update(self):
-        global animCount, images_person_left_im, images_person_right_im
-        animCount += 1
+        self.animCount += 1
 
-        if animCount >= 50:
-            animCount = 0
+        if self.animCount >= 50:
+            self.animCount = 0
 
-        images_person_right_im = self.images_person_right[animCount]
-        images_person_left_im = self.images_person_left[animCount]
+        self.images_person_right_im = self.images_person_right[self.animCount]
+        self.images_person_left_im = self.images_person_left[self.animCount]
 
-
-def main():
-    global left, right, up, down, person_speed, x, y, FPS, animCount, images_person_left_im, images_person_right_im
-    direction = True
-    window = pygame.display.set_mode((1920, 1080))
-    clock = pygame.time.Clock()
-
-    clock.tick(FPS)
-    window.fill((255, 255, 255))
-
-    while run:
+    def main(self):
+        direction = True
+        window = pygame.display.set_mode((1920, 1080))
+        clock = pygame.time.Clock()
 
         my_sprite = MySprite()
         my_group = pygame.sprite.Group(my_sprite)
 
-        if direction == True:
-            window.blit(images_person_right_im, (x, y))
-        if direction == False:
-            window.blit(images_person_left_im, (x, y))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-                quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    direction = True
-                elif event.key == pygame.K_LEFT:
-                    direction = False
-        key_pressed_is = pygame.key.get_pressed()
-        if key_pressed_is[K_LEFT] and x >= -40:
-            x -= person_speed
-        if key_pressed_is[K_RIGHT] and x <= 1700:
-            x += person_speed
-        if key_pressed_is[K_UP] and y > -100:
-            y -= person_speed
-        if key_pressed_is[K_DOWN] and y < 970:
-            y += person_speed
+        clock.tick(self.FPS)
+        window.fill((255, 255, 255))
 
-        my_group.update()
-        my_group.draw(window)
-        pygame.display.update()
+        while run:
+            if direction == True:
+                window.blit(self.images_person_right_im, (self.x, self.y))
+            if direction == False:
+                window.blit(self.images_person_left_im, (self.x, self.y))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT:
+                        direction = True
+                    elif event.key == pygame.K_LEFT:
+                        direction = False
+            key_pressed_is = pygame.key.get_pressed()
+            if key_pressed_is[K_LEFT] and self.x >= -40:
+                self.x -= self.person_speed
+            if key_pressed_is[K_RIGHT] and self.x <= 1700:
+                self.x += self.person_speed
+            if key_pressed_is[K_UP] and self.y > -100:
+                self.y -= self.person_speed
+            if key_pressed_is[K_DOWN] and self.y < 970:
+                self.y += self.person_speed
+
+            my_group.update()
+            my_group.draw(window)
+            pygame.display.update()

@@ -64,7 +64,7 @@ class MySprite(pygame.sprite.Sprite):
 
         self.image = self.images_person_right[self.index]
 
-        self.rect = pygame.Rect(5, 5, 150, 198)
+        self.rect = pygame.Rect(5, 5, 400, 198)
 
     def update(self):
         self.index += 1
