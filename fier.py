@@ -4,8 +4,7 @@ import pygame
 
 SIZE = WIDTH, HEIGHT = 600, 400
 BACKGROUND_COLOR = pygame.Color((0, 0, 0))
-FPS = 10
-
+FPS = 30
 
 class anim_fire(pygame.sprite.Sprite):
     def __init__(self):
