@@ -32,21 +32,21 @@ class Board:
         self.cell_size = cell_size
 
     def render(self, screen):
-        sp_ground = (pygame.image.load('image/low_settings/ground/ground0000.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0001.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0002.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0003.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0004.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0005.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0006.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0007.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0008.png').convert_alpha(),
-                     pygame.image.load('image/low_settings/ground/ground0009.png').convert_alpha(),
+        sp_ground = (pygame.image.load('image/low_settings/new_ground/ground0000.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0001.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0002.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0003.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0004.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0005.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0006.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0007.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0008.png').convert_alpha(),
+                     pygame.image.load('image/low_settings/new_ground/ground0009.png').convert_alpha(),
                      )
         for y in range(self.height):
             for x in range(self.width):
                 img_ground = sp_ground[random.randint(0, 9)]
-                small_img_ground = pygame.transform.scale(img_ground, (150, 150))
+                small_img_ground = pygame.transform.scale(img_ground, (155, 155))
                 screen.blit(small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                self.cell_size, self.cell_size))
 
