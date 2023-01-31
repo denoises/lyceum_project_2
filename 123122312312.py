@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 FPS = 60
 
 
-class Board:
+class Board:  # доска?
     # создание поля
     def __init__(self, width, height):
         self.width = width
@@ -49,6 +49,7 @@ class Board:
                 small_img_ground = pygame.transform.scale(img_ground, (155, 155))
                 screen.blit(small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                self.cell_size, self.cell_size))
+                # крассота
 
 
 def load_image(name, colorkey=None):
@@ -117,7 +118,7 @@ def cursor():  # курсор
     pygame.mouse.set_visible(False)
 
 
-class Tree_class: # это что, елка?
+class Tree_class:  # это что, елка?
     def __init__(self, min_x_tree, max_x_tree, min_y_tree, max_y_tree):
         self.min_x_tree = min_x_tree
         self.max_x_tree = max_x_tree
@@ -141,25 +142,25 @@ class Tree_class: # это что, елка?
         # min_y_tree = 1080
         # max_x_tree = 1920
         # min_x_tree = 0
-        cal_tree_max = 200
+        cal_tree_max = 200  # количество елок
         cal_tree_now = 0
 
         while cal_tree_now < cal_tree_max:
             tree_image_random = tree_image[random.randint(0, 9)]
             a = random.randint(300, 430)
-            tree_image_random_scale = pygame.transform.scale(tree_image_random, (a, a))
+            tree_image_random_scale = pygame.transform.scale(tree_image_random, (a, a))  # рандомный размер елок
 
             proverka = 0
             while proverka == 0:
                 random_y_cooord = random.randint(-300, 1080)
                 random_x_cooord = random.randint(-300, 1920)
-                if 500 < random_x_cooord < 1100 and 150 < random_y_cooord < 650:
+                if 500 < random_x_cooord < 1100 and 150 < random_y_cooord < 650:  # область без костра
                     proverka = 0
                 else:
                     proverka = 1
 
             screen.blit(tree_image_random_scale,
-                        (random_x_cooord, random_y_cooord))
+                        (random_x_cooord, random_y_cooord))  # отрисовка ёлок
             cal_tree_now += 1
 
 
