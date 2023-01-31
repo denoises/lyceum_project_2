@@ -58,8 +58,6 @@ class anim_fire(pygame.sprite.Sprite):
 
         self.index = 0
 
-        self.image = pygame.transform.scale(self.fire_image[self.index], (10, 10))
-
         self.rect = pygame.Rect(5, 5, 400, 198)
 
     def update(self):
@@ -68,7 +66,7 @@ class anim_fire(pygame.sprite.Sprite):
         if self.index >= len(self.fire_image):
             self.index = 0
 
-        self.image = self.fire_image[self.index]
+        self.image = pygame.transform.scale(self.fire_image[self.index], (100, 100))
 
 
 def main():

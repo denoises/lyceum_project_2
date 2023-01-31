@@ -11,7 +11,7 @@ horizontal_borders = pygame.sprite.Group()
 vertical_borders = pygame.sprite.Group()
 clock = pygame.time.Clock()
 
-FPS = 60
+FPS = 30
 
 
 class Board:  # доска?
@@ -373,9 +373,6 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
                                    ]
         #  мне кажется был вариант полегче, чем все это в ручную писать, но уже поздно
         self.index = 0
-
-        self.image = self.images_person_right[self.index]
-
         self.rect = pygame.Rect(5, 5, 400, 198)
 
     def update(self):
@@ -384,13 +381,12 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         if self.index >= len(self.images_person_right):
             self.index = 0
 
-        self.image = self.images_person_right[self.index]
+        self.image = pygame.transform.scale(self.images_person_right[self.index], (300, 300))
 
 
 class Fire(pygame.sprite.Sprite):  # костёр
     def __init__(self):
         super(Fire, self).__init__()
-
         self.fire_image = [pygame.image.load('image/low_settings/fire/fire0018.png').convert_alpha(),
                            pygame.image.load('image/low_settings/fire/fire0019.png').convert_alpha(),
                            pygame.image.load('image/low_settings/fire/fire0020.png').convert_alpha(),
@@ -436,11 +432,7 @@ class Fire(pygame.sprite.Sprite):  # костёр
                            pygame.image.load('image/low_settings/fire/fire0070.png').convert_alpha(),
 
                            ]
-
         self.index = 0
-
-        self.image = pygame.transform.scale(self.fire_image[self.index], (10, 10))
-
         self.rect = pygame.Rect(5, 5, 400, 198)
 
     def update(self):
@@ -449,12 +441,14 @@ class Fire(pygame.sprite.Sprite):  # костёр
         if self.index >= len(self.fire_image):
             self.index = 0
 
-        self.image = self.fire_image[self.index]
+        self.image = pygame.transform.scale(self.fire_image[self.index], (300, 300))
+        screen.blit(self.image, (850, 450))
 
 
 def main():
     start_screen()
-
+    my_sprite_for_fire = Fire()
+    my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
     board = Board(18, 9)
 
     board.set_view(0, 0, 150)
@@ -474,7 +468,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
                 # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
+
             pygame.display.flip()
+        my_group_for_fire.update()  # АААА горим
+        clock.tick(FPS)
+
     pygame.quit()
 
 
