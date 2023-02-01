@@ -387,6 +387,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
 class Fire(pygame.sprite.Sprite):  # костёр
     def __init__(self):
         super(Fire, self).__init__()
+        background = pygame.display.set_mode()
         self.fire_image = [pygame.image.load('image/low_settings/fire/fire0018.png').convert_alpha(),
                            pygame.image.load('image/low_settings/fire/fire0019.png').convert_alpha(),
                            pygame.image.load('image/low_settings/fire/fire0020.png').convert_alpha(),
@@ -441,12 +442,13 @@ class Fire(pygame.sprite.Sprite):  # костёр
         if self.index >= len(self.fire_image):
             self.index = 0
 
-        self.image = pygame.transform.scale(self.fire_image[self.index], (300, 300))
-        screen.blit(self.image, (850, 450))
+        self.image = pygame.transform.scale(self.fire_image[self.index], (400, 400))
+        screen.blit(self.image, (800, 370))
 
 
 def main():
     start_screen()
+
     my_sprite_for_fire = Fire()
     my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
     board = Board(18, 9)
@@ -456,7 +458,7 @@ def main():
 
     running = True
     pygame.init()
-    size = width, height = 1920, 1080
+
     screen = pygame.display.set_mode(size)
     run_gr = True
     while run_gr:
