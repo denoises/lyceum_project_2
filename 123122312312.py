@@ -447,6 +447,9 @@ class Fire(pygame.sprite.Sprite):  # костёр
 
 
 def main():
+
+    pygame.mixer.music.load("other/sounds/fon.mp3")
+    pygame.mixer.music.play(-1)
     start_screen()
 
     my_sprite_for_fire = Fire()

@@ -247,6 +247,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
 
 
 def main():
+
     running = True
     start = False
     pygame.init()
