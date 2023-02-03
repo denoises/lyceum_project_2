@@ -1,205 +1,403 @@
 import pygame
-import sys
 import os
+import sys
 import random
-
-# просто скопировал задачу "перемещение" героя для теста
+from load_image import load_image
+from start_screen_and_cursor import start_screen
+from map_generate import Tree_class, Board
 
 pygame.init()
-size = width, height = 500, 500
+size = width, height = 1920, 1080
 screen = pygame.display.set_mode(size)
 all_sprites = pygame.sprite.Group()
 horizontal_borders = pygame.sprite.Group()
 vertical_borders = pygame.sprite.Group()
 clock = pygame.time.Clock()
 
-# основной персонаж
-player = None
+scores = 1000  # баллы
 
-# группы спрайтов
-
-tiles_group = pygame.sprite.Group()
-player_group = pygame.sprite.Group()
+rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
+rand_gen_for_clouds = int(random.randint(0, 10))
 
 
-def load_image(name, colorkey=None):  # поиск картинки
-    fullname = os.path.join('other', name)
-    # если файл не существует, то выходим
-    if not os.path.isfile(fullname):
-        print(f"Файл с изображением '{fullname}' не найден")
-        sys.exit()
-    try:
-        image = pygame.image.load(fullname)
-    except pygame.error as Message:
-        print(Message)
-        raise SystemExit(Message)
-    if colorkey is not None:
-        image = image.convert()
-        if colorkey == -1:
-            colorkey = image.get_at((0, 0))
-        image.set_colorkey(colorkey)
-    else:
-        image = image.convert_alpha()
-    return image
+# 1000 очков всего, за каждые 500 милисикунд  - 7 очков
+# одно срубленное дерево, кинутое в костёр + 50 очков
+# удачи
+
+# ПЕРСОНАЖ, тут только список анимаций и кривая логика обновления спрайтов
+class Person(pygame.sprite.Sprite):  # маленький лесорубик
+    def __init__(self):
+        super(Person, self).__init__()
+
+        self.images_person_right = [pygame.image.load('image/low_settings/person/right/right0001.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0002.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0003.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0004.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0005.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0006.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0007.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0008.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0009.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0010.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0011.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0012.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0013.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0014.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0015.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0016.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0017.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0018.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0019.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0020.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0021.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0022.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0023.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0024.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0025.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0026.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0027.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0028.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0029.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0030.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0031.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0032.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0033.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0034.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0035.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0036.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0037.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0038.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0039.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0040.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0041.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0042.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0043.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0044.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0045.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0046.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0047.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0048.png').convert_alpha(),
+                                    pygame.image.load('image/low_settings/person/right/right0049.png').convert_alpha(),
+                                    pygame.image.load(
+                                        'image/low_settings/person/right/right0050.png').convert_alpha(), ]
+        self.images_person_left = [pygame.image.load('image/low_settings/person/left/left0001.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0002.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0003.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0004.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0005.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0006.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0007.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0008.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0009.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0010.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0011.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0012.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0013.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0014.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0015.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0016.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0017.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0018.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0019.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0020.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0021.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0022.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0023.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0024.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0025.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0026.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0027.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0028.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0029.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0030.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0031.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0032.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0033.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0034.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0035.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0036.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0037.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0038.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0039.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0040.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0041.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0042.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0043.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0044.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0045.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0046.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0047.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0048.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0049.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/left/left0050.png').convert_alpha(), ]
+        self.images_person_up = [pygame.image.load('image/low_settings/person/up/up0001.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0002.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0003.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0004.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0005.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0006.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0007.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0008.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0009.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0010.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0011.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0012.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0013.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0014.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0015.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0016.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0017.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0018.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0019.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0020.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0021.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0022.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0023.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0024.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0025.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0026.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0027.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0028.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0029.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0020.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0031.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0032.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0033.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0034.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0035.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0036.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0037.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0038.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0039.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0040.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0041.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0042.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0043.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0044.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0045.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0046.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0047.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0048.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0049.png').convert_alpha(),
+                                 pygame.image.load('image/low_settings/person/up/up0050.png').convert_alpha()
+                                 ]
+        self.images_person_down = [pygame.image.load('image/low_settings/person/down/down0001.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0002.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0003.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0004.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0005.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0006.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0007.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0008.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0009.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0010.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0011.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0012.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0013.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0014.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0015.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0016.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0017.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0018.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0019.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0020.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0021.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0022.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0023.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0024.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0025.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0026.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0027.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0028.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0029.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0030.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0031.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0032.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0033.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0034.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0035.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0036.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0037.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0038.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0039.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0040.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0041.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0042.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0043.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0044.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0045.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0046.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0047.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0048.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0049.png').convert_alpha(),
+                                   pygame.image.load('image/low_settings/person/down/down0050.png').convert_alpha(),
+                                   ]
+        #  мне кажется был вариант полегче, чем все это в ручную писать, но уже поздно
+        self.index = 0
+        self.rect = pygame.Rect(5, 5, 400, 198)
+
+    def update(self):
+        self.index += 1
+
+        if self.index >= len(self.images_person_right):
+            self.index = 0
+
+        self.image = pygame.transform.scale(self.images_person_right[self.index], (300, 300))
 
 
-tile_images = {
-    'wall': load_image('box.png'),
-    'empty': load_image('grass.png')
-}
-player_image = load_image('mario.png')
+# Класс огня, тут просто отрисовываются спрайты огня, ДОРАБАТЫВАТЬ
+class Fire(pygame.sprite.Sprite):  # костёр
+    def __init__(self):
+        super(Fire, self).__init__()
+        background = pygame.display.set_mode()
+        self.fire_image = [pygame.image.load('image/low_settings/fire/fire0018.png'),
+                           pygame.image.load('image/low_settings/fire/fire0019.png'),
+                           pygame.image.load('image/low_settings/fire/fire0020.png'),
+                           pygame.image.load('image/low_settings/fire/fire0021.png'),
+                           pygame.image.load('image/low_settings/fire/fire0022.png'),
+                           pygame.image.load('image/low_settings/fire/fire0023.png'),
+                           pygame.image.load('image/low_settings/fire/fire0024.png'),
+                           pygame.image.load('image/low_settings/fire/fire0025.png'),
+                           pygame.image.load('image/low_settings/fire/fire0026.png'),
+                           pygame.image.load('image/low_settings/fire/fire0027.png'),
+                           pygame.image.load('image/low_settings/fire/fire0028.png'),
+                           pygame.image.load('image/low_settings/fire/fire0029.png'),
+                           pygame.image.load('image/low_settings/fire/fire0030.png'),
+                           pygame.image.load('image/low_settings/fire/fire0031.png'),
+                           pygame.image.load('image/low_settings/fire/fire0032.png'),
+                           pygame.image.load('image/low_settings/fire/fire0033.png'),
+                           pygame.image.load('image/low_settings/fire/fire0034.png'),
+                           pygame.image.load('image/low_settings/fire/fire0035.png'),
+                           pygame.image.load('image/low_settings/fire/fire0036.png'),
+                           pygame.image.load('image/low_settings/fire/fire0037.png'),
+                           pygame.image.load('image/low_settings/fire/fire0038.png'),
+                           pygame.image.load('image/low_settings/fire/fire0039.png'),
+                           pygame.image.load('image/low_settings/fire/fire0040.png'),
+                           pygame.image.load('image/low_settings/fire/fire0041.png'),
+                           pygame.image.load('image/low_settings/fire/fire0042.png'),
+                           pygame.image.load('image/low_settings/fire/fire0043.png'),
+                           pygame.image.load('image/low_settings/fire/fire0044.png'),
+                           pygame.image.load('image/low_settings/fire/fire0045.png'),
+                           pygame.image.load('image/low_settings/fire/fire0046.png'),
+                           pygame.image.load('image/low_settings/fire/fire0047.png'),
+                           pygame.image.load('image/low_settings/fire/fire0048.png'),
+                           pygame.image.load('image/low_settings/fire/fire0049.png'),
+                           pygame.image.load('image/low_settings/fire/fire0050.png'),
+                           pygame.image.load('image/low_settings/fire/fire0061.png'),
+                           pygame.image.load('image/low_settings/fire/fire0062.png'),
+                           pygame.image.load('image/low_settings/fire/fire0063.png'),
+                           pygame.image.load('image/low_settings/fire/fire0064.png'),
+                           pygame.image.load('image/low_settings/fire/fire0065.png'),
+                           pygame.image.load('image/low_settings/fire/fire0066.png'),
+                           pygame.image.load('image/low_settings/fire/fire0067.png'),
+                           pygame.image.load('image/low_settings/fire/fire0068.png'),
+                           pygame.image.load('image/low_settings/fire/fire0069.png'),
+                           pygame.image.load('image/low_settings/fire/fire0070.png')
 
-tile_width = tile_height = 50
+                           ]
+        self.index = 0
+        self.rect = pygame.Rect(5, 5, 400, 198)
 
+    def update(self):
+        self.index += 1
 
-class Tile(pygame.sprite.Sprite):
-    def __init__(self, tile_type, pos_x, pos_y):
-        super().__init__(tiles_group, all_sprites)
-        self.image = tile_images[tile_type]
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x, tile_height * pos_y)
+        if self.index >= len(self.fire_image):
+            self.index = 0
 
-
-class Player(pygame.sprite.Sprite):  # класс игрока
-    def __init__(self, pos_x, pos_y):
-        super().__init__(player_group, all_sprites)
-        self.image = player_image
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x + 15, tile_height * pos_y + 5)
-        self.pos = (pos_x, pos_y)
-
-        def move(self, x, y):
-            self.pos = (x, y)
-            self.rect = self.image.get_rect().move(
-                tile_width * self.pos[0] + 15,
-                tile_height * self.pos[1] + 5)
-
-        def update():
-            pass
-
-
-def generate_level(level):  # создание левола
-    new_player, x, y = None, None, None
-    for y in range(len(level)):
-        for x in range(len(level[y])):
-            if level[y][x] == '.':
-                Tile('empty', x, y)
-            elif level[y][x] == '#':
-                Tile('wall', x, y)
-            elif level[y][x] == '@':
-                Tile('empty', x, y)
-                new_player = Player(x, y)
-    # вернем игрока, а также размер поля в клетках
-    return new_player, x, y
-
-
-title_images = {
-    'wall': load_image('box.png'),
-    'empty': load_image('grass.png')
-}
-
-FPS = 50
-
-
-def terminate():
-    pygame.quit()
-    sys.exit()
-
-
-def start_screen():
-    intro_text = ["ЗАСТАВКА", "",
-                  "Правила игры",
-                  "Если в правилах несколько строк,",
-                  "приходится выводить их построчно"]
-
-    fon = pygame.transform.scale(load_image('fon.jpg'), (500, 500))
-    screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
-    for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
-        intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 10
-        text_coord += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                terminate()
-            elif event.type == pygame.KEYDOWN or \
-                    event.type == pygame.MOUSEBUTTONDOWN:
-                return  # начинаем игру
-        pygame.display.flip()
-        clock.tick(FPS)
+        self.image = pygame.transform.scale(self.fire_image[self.index], (400, 400))
+        screen.blit(self.image, (790, 370))
 
 
-hero, max_x, max_y = generate_level(level_map)
+# нужно прибавлять переменную self.ind_light если игрок начинает проигрывать НА ДАННЫЙ МОМЕНТ НЕ ГОТОВО
+class Light(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Light, self).__init__()
+        self.ind_light = 0
+        self.img_light = [
+            pygame.image.load('other/light/0.png').convert_alpha(),
+            pygame.image.load('other/light/10.png').convert_alpha(),
+            pygame.image.load('other/light/20.png').convert_alpha(),
+            pygame.image.load('other/light/30.png').convert_alpha(),
+            pygame.image.load('other/light/40.png').convert_alpha(),
+            pygame.image.load('other/light/50.png').convert_alpha(),
+            pygame.image.load('other/light/80.png').convert_alpha(),
+            pygame.image.load('other/light/100.png').convert_alpha()
+        ]
+
+    def light_raise(self):
+        print('light_raise')
+        if self.ind_light < 8:
+            self.ind_light += 1
+            screen.blit(self.img_light[self.ind_light])
+
+    def light_lower(self):
+        print('light_lower')
+        if self.ind_light > 0:
+            self.ind_light -= 1
+            screen.blit(self.img_light[self.ind_light])
 
 
-def move(hero, moves, level_map):
-    x, y = hero.pos
-    if moves == 'up':
-        if y > 0 and level_map[y - 1][x] == '.':
-            hero.move(x, y - 1)
-
-    elif moves == 'down':
-        if y < max_y - 1 and level_map[y + 1][x] == '.':
-            hero.move(x, y + 1)
-
-    elif moves == 'left':
-        if x > 0 and level_map[y][x - 1] == '.':
-            hero.move(x - 1, y)
-
-    elif moves == 'right':
-        if x < max_x - 1 and level_map[y][x + 1] == '.':
-            hero.move(x + 1, y)
-
-
-def load_level(filename):
-    filename = "image/low_settings/" + filename
-    # читаем уровень, убирая символы перевода строки
-    with open(filename, 'r') as mapFile:
-        level_map = [line.strip() for line in mapFile]
-
-    # и подсчитываем максимальную длину
-    max_width = max(map(len, level_map))
-
-    # дополняем каждую строку пустыми клетками ('.')
-    return list(map(lambda x: x.ljust(max_width, '.'), level_map))
+# class Clouds: задумка хорошая, но реализовать нормально сложно
+#     def __init__(self):
+#         self.clouds_img = [pygame.image.load('other/clouds/1.png'),
+#                            pygame.image.load('other/clouds/2.png'),
+#                            pygame.image.load('other/clouds/3.png'),
+#                            pygame.image.load('other/clouds/4.png'),
+#                            pygame.image.load('other/clouds/5.png'),
+#                            pygame.image.load('other/clouds/6.png'),
+#                            pygame.image.load('other/clouds/7.png'),
+#                            pygame.image.load('other/clouds/8.png'),
+#                            pygame.image.load('other/clouds/9.png'),
+#                            pygame.image.load('other/clouds/10.png')
+#                            ]
+#
+#     def render(self):
+#         img_clouds = self.clouds_img[rand_gen_for_clouds]
+#         img_clouds = pygame.transform.scale(img_clouds, (1920, 1080))
+#         screen.blit(img_clouds, (0, 0))
 
 
 def main():
+    screen = pygame.display.set_mode(size)
+    pygame.mixer.music.load("other/sounds/fon.mp3")
+    pygame.mixer.music.play(-1)
     start_screen()
-    level_map = load_level('map.map')
-    hero, max_x, max_y = generate_level(level_map)
+
+    my_sprite_for_fire = Fire()
+    my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
+
+    sprite_for_light = Light()
+    group_for_light = pygame.sprite.Group(sprite_for_light)
+
+    board = Board(18, 9)
+    # clouds = Clouds()
+
+    board.set_view(0, 0, 150)
+    treeeeee = Tree_class(0, 1920, 1080, 0)
+
     running = True
-    start = True
-    man = None
-    x = 0
-    f = True
-    cursor = pygame.sprite.Sprite()
+    pygame.init()
 
+    run_gr = True
+    while run_gr:
+        treeeeee.tree(screen)
+        run_gr = False
     while running:
-        if x + 200 > 500:
-            f = False
-        elif x < 0:
-            f = True
-        if f:
-            x -= 0.25
-        else:
-            x -= 0.25
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            all_sprites.update(event)
-        screen.fill('#000000')
-        all_sprites.draw(screen)
-        all_sprites.update()
-        clock.tick(30)
-        pygame.display.flip()
+                # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
 
+        board.render(screen)
+
+        my_group_for_fire.update()  # АААА горим
+        group_for_light.update()
+        # clouds.render()
+        treeeeee.tree(screen)
+        pygame.display.flip()
+        clock.tick(120)
     pygame.quit()
+
+
+if __name__ == '__main__':
+    main()
