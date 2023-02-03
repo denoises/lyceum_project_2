@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 FPS = 30
 
-
+# Создание земли в виде квадратиков
 class Board:  # доска?
     # создание поля
     def __init__(self, width, height):
@@ -32,6 +32,7 @@ class Board:  # доска?
         self.cell_size = cell_size
 
     def render(self, screen):
+        # картинки из которых делается выбор
         sp_ground = (pygame.image.load('image/low_settings/new_ground/ground0000.png').convert_alpha(),
                      pygame.image.load('image/low_settings/new_ground/ground0001.png').convert_alpha(),
                      pygame.image.load('image/low_settings/new_ground/ground0002.png').convert_alpha(),
@@ -45,13 +46,16 @@ class Board:  # доска?
                      )
         for y in range(self.height):
             for x in range(self.width):
+                # случайно выбираем картинку
                 img_ground = sp_ground[random.randint(0, 9)]
+                # подгоняем размеры
                 small_img_ground = pygame.transform.scale(img_ground, (155, 155))
+                # выстраиваем из них сетку
                 screen.blit(small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                self.cell_size, self.cell_size))
-                # крассота
+                # красота
 
-
+# Подгрузка картинок
 def load_image(name, colorkey=None):
     fullname = os.path.join('', name)
     # если файл не существует, то выходим
@@ -78,6 +82,7 @@ def terminate():
     sys.exit()
 
 
+# Стартовое окно
 def start_screen():
     intro_text = ("Ваша цель - выжить в этом лесу",
                   '(Нажмите любую кнопку чтобы начать игру)', ""
@@ -118,6 +123,7 @@ def cursor():  # курсор
     pygame.mouse.set_visible(False)
 
 
+# Спаун деревьев, всё замечательно
 class Tree_class:  # это что, елка?
     def __init__(self, min_x_tree, max_x_tree, min_y_tree, max_y_tree):
         self.min_x_tree = min_x_tree
@@ -126,6 +132,7 @@ class Tree_class:  # это что, елка?
         self.max_y_tree = max_y_tree
 
     def tree(self, screen):
+        # большой и разнообразный выбор
         tree_image = [pygame.image.load('image/low_settings/tree/el0001.png').convert_alpha(),
                       pygame.image.load('image/low_settings/tree/el0002.png').convert_alpha(),
                       pygame.image.load('image/low_settings/tree/el0003.png').convert_alpha(),
@@ -154,7 +161,7 @@ class Tree_class:  # это что, елка?
             while proverka == 0:
                 random_y_cooord = random.randint(-300, 1080)
                 random_x_cooord = random.randint(-300, 1920)
-                if 500 < random_x_cooord < 1100 and 150 < random_y_cooord < 650:  # область без костра
+                if 500 < random_x_cooord < 1100 and 150 < random_y_cooord < 650:  # область для костра
                     proverka = 0
                 else:
                     proverka = 1
@@ -164,6 +171,7 @@ class Tree_class:  # это что, елка?
             cal_tree_now += 1
 
 
+# ПЕРСОНАЖ, тут только список анимаций и кривая логика обновления спрайтов
 class Person(pygame.sprite.Sprite):  # маленький лесорубик
     def __init__(self):
         super(Person, self).__init__()
@@ -384,6 +392,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.image = pygame.transform.scale(self.images_person_right[self.index], (300, 300))
 
 
+# Класс огня, тут просто отрисовываются спрайты огня, ДОРАБАТЫВАТЬ
 class Fire(pygame.sprite.Sprite):  # костёр
     def __init__(self):
         super(Fire, self).__init__()
@@ -443,17 +452,50 @@ class Fire(pygame.sprite.Sprite):  # костёр
             self.index = 0
 
         self.image = pygame.transform.scale(self.fire_image[self.index], (400, 400))
-        screen.blit(self.image, (800, 370))
+        screen.blit(self.image, (790, 370))
+
+
+# нужно прибавлять переменную self.ind_light если игрок начинает проигрывать НА ДАННЫЙ МОМЕНТ НЕ ГОТОВО
+class Light(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Light, self).__init__()
+        self.ind_light = 0
+        self.img_light = [
+            pygame.image.load('other/light/0.png').convert_alpha(),
+            pygame.image.load('other/light/10.png').convert_alpha(),
+            pygame.image.load('other/light/20.png').convert_alpha(),
+            pygame.image.load('other/light/30.png').convert_alpha(),
+            pygame.image.load('other/light/40.png').convert_alpha(),
+            pygame.image.load('other/light/50.png').convert_alpha(),
+            pygame.image.load('other/light/80.png').convert_alpha(),
+            pygame.image.load('other/light/100.png').convert_alpha()
+        ]
+
+    def light_raise(self):
+        print('light_raise')
+        if self.ind_light < 8:
+            self.ind_light += 1
+            screen.blit(self.img_light[self.ind_light])
+
+    def light_lower(self):
+        print('light_lower')
+        if self.ind_light > 0:
+            self.ind_light -= 1
+            screen.blit(self.img_light[self.ind_light])
 
 
 def main():
-
+    screen = pygame.display.set_mode(size)
     pygame.mixer.music.load("other/sounds/fon.mp3")
     pygame.mixer.music.play(-1)
     start_screen()
 
     my_sprite_for_fire = Fire()
     my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
+
+    sprite_for_light = Light()
+    group_for_light = pygame.sprite.Group(sprite_for_light)
+
     board = Board(18, 9)
 
     board.set_view(0, 0, 150)
@@ -462,7 +504,6 @@ def main():
     running = True
     pygame.init()
 
-    screen = pygame.display.set_mode(size)
     run_gr = True
     while run_gr:
         board.render(screen)
@@ -474,10 +515,11 @@ def main():
                 running = False
                 # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
 
-            pygame.display.flip()
         my_group_for_fire.update()  # АААА горим
-        clock.tick(FPS)
+        group_for_light.update()
 
+        pygame.display.flip()
+        clock.tick(FPS)
     pygame.quit()
 
 
