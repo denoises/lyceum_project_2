@@ -13,7 +13,6 @@ clock = pygame.time.Clock()
 scores = 1000  # баллы
 
 rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
-rand_gen_for_clouds = int(random.randint(0, 10))
 
 
 class Tree_class:  # это что, елка?

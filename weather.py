@@ -9,6 +9,8 @@ all_sprites = pygame.sprite.Group()
 horizontal_borders = pygame.sprite.Group()
 vertical_borders = pygame.sprite.Group()
 clock = pygame.time.Clock()
+rand_gen_for_clouds = int(random.randint(0, 10))
+
 
 
 # нужно прибавлять переменную self.ind_light если игрок начинает проигрывать НА ДАННЫЙ МОМЕНТ НЕ ГОТОВО

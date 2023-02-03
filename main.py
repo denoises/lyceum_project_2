@@ -1,11 +1,10 @@
-import pygame
-import os
-import sys
 import random
-from load_image import load_image
-from start_screen_and_cursor import start_screen
-from weather import Light, Clouds
+
+import pygame
+
 from map_generate import Tree_class, Board
+from start_screen_and_cursor import start_screen
+from weather import Light
 
 pygame.init()
 size = width, height = 1920, 1080
@@ -250,7 +249,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
 class Fire(pygame.sprite.Sprite):  # костёр
     def __init__(self):
         super(Fire, self).__init__()
-        background = pygame.display.set_mode()
+        pygame.display.set_mode()
         self.fire_image = [pygame.image.load('image/low_settings/fire/fire0018.png'),
                            pygame.image.load('image/low_settings/fire/fire0019.png'),
                            pygame.image.load('image/low_settings/fire/fire0020.png'),
