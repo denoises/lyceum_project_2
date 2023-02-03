@@ -15,6 +15,9 @@ FPS = 30
 
 scores = 1000  # баллы
 
+rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
+rand_gen_for_clouds = int(random.randint(0, 10))
+
 
 # 1000 очков всего, за каждые 500 милисикунд  - 7 очков
 # одно срубленное дерево, кинутое в костёр + 50 очков
@@ -55,13 +58,12 @@ class Board:  # доска?
         for y in range(self.height):
             for x in range(self.width):
                 # случайно выбираем картинку
-                img_ground = sp_ground[random.randint(0, 9)]
+                img_ground = sp_ground[rand_gen_for_patern[y * 18 + x]]
                 # подгоняем размеры
-                small_img_ground = pygame.transform.scale(img_ground, (155, 155))
+                self.small_img_ground = pygame.transform.scale(img_ground, (155, 155))
                 # выстраиваем из них сетку
-                screen.blit(small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
-                                               self.cell_size, self.cell_size))
-                # красота
+                screen.blit(self.small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
+                                                    self.cell_size, self.cell_size))
 
 
 # Подгрузка картинок
@@ -464,67 +466,6 @@ class Fire(pygame.sprite.Sprite):  # костёр
         screen.blit(self.image, (790, 370))
 
 
-i_new_fire = 0
-animation_new_fire = []
-
-
-def new_fire():
-    animation_new_fire = [pygame.image.load('image/low_settings/fire/fire0018.png'),
-                          pygame.image.load('image/low_settings/fire/fire0019.png'),
-                          pygame.image.load('image/low_settings/fire/fire0020.png'),
-                          pygame.image.load('image/low_settings/fire/fire0021.png'),
-                          pygame.image.load('image/low_settings/fire/fire0022.png'),
-                          pygame.image.load('image/low_settings/fire/fire0023.png'),
-                          pygame.image.load('image/low_settings/fire/fire0024.png'),
-                          pygame.image.load('image/low_settings/fire/fire0025.png'),
-                          pygame.image.load('image/low_settings/fire/fire0026.png'),
-                          pygame.image.load('image/low_settings/fire/fire0027.png'),
-                          pygame.image.load('image/low_settings/fire/fire0028.png'),
-                          pygame.image.load('image/low_settings/fire/fire0029.png'),
-                          pygame.image.load('image/low_settings/fire/fire0030.png'),
-                          pygame.image.load('image/low_settings/fire/fire0031.png'),
-                          pygame.image.load('image/low_settings/fire/fire0032.png'),
-                          pygame.image.load('image/low_settings/fire/fire0033.png'),
-                          pygame.image.load('image/low_settings/fire/fire0034.png'),
-                          pygame.image.load('image/low_settings/fire/fire0035.png'),
-                          pygame.image.load('image/low_settings/fire/fire0036.png'),
-                          pygame.image.load('image/low_settings/fire/fire0037.png'),
-                          pygame.image.load('image/low_settings/fire/fire0038.png'),
-                          pygame.image.load('image/low_settings/fire/fire0039.png'),
-                          pygame.image.load('image/low_settings/fire/fire0040.png'),
-                          pygame.image.load('image/low_settings/fire/fire0041.png'),
-                          pygame.image.load('image/low_settings/fire/fire0042.png'),
-                          pygame.image.load('image/low_settings/fire/fire0043.png'),
-                          pygame.image.load('image/low_settings/fire/fire0044.png'),
-                          pygame.image.load('image/low_settings/fire/fire0045.png'),
-                          pygame.image.load('image/low_settings/fire/fire0046.png'),
-                          pygame.image.load('image/low_settings/fire/fire0047.png'),
-                          pygame.image.load('image/low_settings/fire/fire0048.png'),
-                          pygame.image.load('image/low_settings/fire/fire0049.png'),
-                          pygame.image.load('image/low_settings/fire/fire0050.png'),
-                          pygame.image.load('image/low_settings/fire/fire0061.png'),
-                          pygame.image.load('image/low_settings/fire/fire0062.png'),
-                          pygame.image.load('image/low_settings/fire/fire0063.png'),
-                          pygame.image.load('image/low_settings/fire/fire0064.png'),
-                          pygame.image.load('image/low_settings/fire/fire0065.png'),
-                          pygame.image.load('image/low_settings/fire/fire0066.png'),
-                          pygame.image.load('image/low_settings/fire/fire0067.png'),
-                          pygame.image.load('image/low_settings/fire/fire0068.png'),
-                          pygame.image.load('image/low_settings/fire/fire0069.png'),
-                          pygame.image.load('image/low_settings/fire/fire0070.png')
-
-                          ]
-
-
-def update_new_fire(new_fire):
-    global i_new_fire
-    global animation_new_fire
-    screen.blit(animation_new_fire[i_new_fire], (100, 20))
-    i_new_fire += 1
-    if i_new_fire == len(animation_new_fire):
-        i = 0
-
-
 # нужно прибавлять переменную self.ind_light если игрок начинает проигрывать НА ДАННЫЙ МОМЕНТ НЕ ГОТОВО
 class Light(pygame.sprite.Sprite):
     def __init__(self):
@@ -554,19 +495,40 @@ class Light(pygame.sprite.Sprite):
             screen.blit(self.img_light[self.ind_light])
 
 
+# class Clouds: задумка хорошая, но реализовать нормально сложно
+#     def __init__(self):
+#         self.clouds_img = [pygame.image.load('other/clouds/1.png'),
+#                            pygame.image.load('other/clouds/2.png'),
+#                            pygame.image.load('other/clouds/3.png'),
+#                            pygame.image.load('other/clouds/4.png'),
+#                            pygame.image.load('other/clouds/5.png'),
+#                            pygame.image.load('other/clouds/6.png'),
+#                            pygame.image.load('other/clouds/7.png'),
+#                            pygame.image.load('other/clouds/8.png'),
+#                            pygame.image.load('other/clouds/9.png'),
+#                            pygame.image.load('other/clouds/10.png')
+#                            ]
+#
+#     def render(self):
+#         img_clouds = self.clouds_img[rand_gen_for_clouds]
+#         img_clouds = pygame.transform.scale(img_clouds, (1920, 1080))
+#         screen.blit(img_clouds, (0, 0))
+
+
 def main():
     screen = pygame.display.set_mode(size)
     pygame.mixer.music.load("other/sounds/fon.mp3")
     pygame.mixer.music.play(-1)
     start_screen()
 
-    # my_sprite_for_fire = Fire()
-    # my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
+    my_sprite_for_fire = Fire()
+    my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
 
     sprite_for_light = Light()
     group_for_light = pygame.sprite.Group(sprite_for_light)
 
     board = Board(18, 9)
+    # clouds = Clouds()
 
     board.set_view(0, 0, 150)
     treeeeee = Tree_class(0, 1920, 1080, 0)
@@ -575,20 +537,19 @@ def main():
     pygame.init()
 
     run_gr = True
-    while run_gr:
-        screen.fill((0, 0, 0))
-        board.render(screen)
-        treeeeee.tree(screen)
-        run_gr = False
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
-        # my_group_for_fire.update()  # АААА горим
 
+        board.render(screen)
+        treeeeee.tree(screen)
+
+        my_group_for_fire.update()  # АААА горим
         group_for_light.update()
-        new_fire()
+        # clouds.render()
+
         pygame.display.flip()
         clock.tick(FPS)
     pygame.quit()
