@@ -13,7 +13,7 @@ while True:
             pygame.quit()
             sys.exit()
 
-    window.fill((255, 255, 255))
+    window.fill((0, 0, 0))
     window.blit(animation_set[i], (100, 20))
     i += 1
     if i == 49:
