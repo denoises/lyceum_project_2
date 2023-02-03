@@ -13,6 +13,14 @@ clock = pygame.time.Clock()
 
 FPS = 30
 
+scores = 1000  # баллы
+# 1000 очков всего, за каждые 500 милисикунд  - 7 очков
+# одно срубленное дерево, кинутое в костёр + 50 очков
+# удачи
+
+
+
+
 # Создание земли в виде квадратиков
 class Board:  # доска?
     # создание поля
@@ -54,6 +62,7 @@ class Board:  # доска?
                 screen.blit(small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                self.cell_size, self.cell_size))
                 # красота
+
 
 # Подгрузка картинок
 def load_image(name, colorkey=None):
