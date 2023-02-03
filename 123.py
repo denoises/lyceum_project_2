@@ -16,7 +16,7 @@ while True:
     window.fill((255, 255, 255))
     window.blit(animation_set[i], (100, 20))
     i += 1
-    if i == 49:
+    if i == len(animation_set):
         i = 0
 
     pygame.display.flip()
