@@ -5,9 +5,11 @@ import pygame
 from map_generate import Tree_class, Board
 from start_screen_and_cursor import start_screen
 from weather import Light
+from person import Person
 
 pygame.init()
 size = width, height = 1920, 1080
+which_way = 'down'
 screen = pygame.display.set_mode(size)
 all_sprites = pygame.sprite.Group()
 horizontal_borders = pygame.sprite.Group()
@@ -25,50 +27,6 @@ rand_gen_for_clouds = int(random.randint(0, 10))
 # удачи
 
 # ПЕРСОНАЖ, тут только список анимаций и кривая логика обновления спрайтов
-class Person(pygame.sprite.Sprite):  # маленький лесорубик
-    def __init__(self):
-        super(Person, self).__init__()
-
-        # right
-        self.images_person_right = [pygame.image.load(f"image/low_settings/person/right/right00{i:02d}.png") for i in
-                                    range(1, 50)]
-        # left
-        self.images_person_left = [pygame.image.load(f"image/low_settings/person/left/left00{i:02d}.png") for i in
-                                   range(1, 50)]
-        # up
-        self.images_person_up = [pygame.image.load(f"image/low_settings/person/up/up00{i:02d}.png") for i in
-                                 range(1, 50)]
-        # down
-        self.images_person_down = [pygame.image.load(f"image/low_settings/person/down/down00{i:02d}.png") for i in
-                                   range(1, 50)]
-        # left_up
-        self.images_person_left_up = [pygame.image.load(f"image/low_settings/person/left up/left_up00{i:02d}.png") for i
-                                      in
-                                      range(1, 50)]
-        # left_down
-        self.images_person_left_down = [pygame.image.load(f"image/low_settings/person/left down/left_down00{i:02d}.png")
-                                        for i in
-                                        range(1, 50)]
-        # right_up
-        self.images_person_right_up = [pygame.image.load(f"image/low_settings/person/right up/right_up00{i:02d}.png")
-                                       for i in
-                                       range(1, 50)]
-        # right_down
-        self.images_person_right_down = [
-            pygame.image.load(f"image/low_settings/person/right down/right_down00{i:02d}.png") for i in
-            range(1, 50)]
-
-        self.index = 0
-        self.rect = pygame.Rect(5, 5, 400, 198)
-
-    def update(self):
-        self.index += 1
-
-        if self.index >= len(self.images_person_right):
-            self.index = 0
-
-        self.image = pygame.transform.scale(self.images_person_right[self.index], (300, 300))
-
 
 # Класс огня, тут просто отрисовываются спрайты огня, ДОРАБАТЫВАТЬ
 class Fire(pygame.sprite.Sprite):  # костёр
@@ -134,6 +92,10 @@ class Fire(pygame.sprite.Sprite):  # костёр
 
 
 def main():
+    global which_way
+    which_way = 'down'
+    speed_pers = 5
+
     screen = pygame.display.set_mode(size)
     pygame.mixer.music.load("other/sounds/fon.mp3")
     pygame.mixer.music.play(-1)
@@ -141,6 +103,9 @@ def main():
 
     my_sprite_for_fire = Fire()
     my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
+
+    player = Person()
+    player.update(which_way, speed_pers)
 
     sprite_for_light = Light()
     group_for_light = pygame.sprite.Group(sprite_for_light)
@@ -162,16 +127,33 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
+            if (event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_UP):
+                which_way = 'up'
+            if (event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_DOWN):
+                which_way = 'down'
+            if (event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_LEFT):
+                which_way = 'left'
+            if (event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_RIGHT):
+                which_way = 'right'
+
+            player.update(which_way, speed_pers)
+
+
+            # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
 
         board.render(screen)
 
         my_group_for_fire.update()  # АААА горим
+        player.rendering()
         group_for_light.update()
         # clouds.render()
         treeeeee.tree(screen)
         pygame.display.flip()
-        clock.tick(120)
+        clock.tick(60)
     pygame.quit()
 
 
