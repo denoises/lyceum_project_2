@@ -1,14 +1,18 @@
 import pygame
 
 size = width, height = 1920, 1080
+which_way = 'down'
 screen = pygame.display.set_mode(size)
-FPS = 60
+all_sprites = pygame.sprite.Group()
+horizontal_borders = pygame.sprite.Group()
+vertical_borders = pygame.sprite.Group()
+clock = pygame.time.Clock()
 
 
 class Fire(pygame.sprite.Sprite):  # костёр
     def __init__(self):
         super(Fire, self).__init__()
-        background = pygame.display.set_mode()
+        pygame.display.set_mode()
         self.fire_image = [pygame.image.load('image/low_settings/fire/fire0018.png'),
                            pygame.image.load('image/low_settings/fire/fire0019.png'),
                            pygame.image.load('image/low_settings/fire/fire0020.png'),
@@ -66,26 +70,3 @@ class Fire(pygame.sprite.Sprite):  # костёр
         self.image = pygame.transform.scale(self.fire_image[self.index], (400, 400))
         screen.blit(self.image, (790, 370))
 
-
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode(size)
-    my_sprite = Fire()
-    my_group = pygame.sprite.Group(my_sprite)
-    clock = pygame.time.Clock()
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-        my_group.update()
-        screen.fill((255, 255, 255))
-        my_group.draw(screen)
-        pygame.display.update()
-        clock.tick(FPS)
-
-
-if __name__ == '__main__':
-    main()

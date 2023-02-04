@@ -68,7 +68,15 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         else:
             self.images_person_now = self.images_person_down  # стандарт
 
-        self.index += 1
+
+        if self.speed_pers == 3:
+            self.index += 1
+        elif self.speed_pers == 5:
+            self.index += 2
+        elif self.speed_pers == 10:
+            self.index += 4
+        elif self.speed_pers == 15:
+            self.index += 6
 
         if self.index >= len(self.images_person_now):
             self.index = 0
