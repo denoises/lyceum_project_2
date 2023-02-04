@@ -23,14 +23,10 @@ rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
 rand_gen_for_clouds = int(random.randint(0, 10))
 
 
-# 1000 очков всего, за каждые 500 милисикунд  - 7 очков
-# одно срубленное дерево, кинутое в костёр + 50 очков
-# удачи
-
 def main():
     global which_way
     which_way = 'down'
-    speed_pers = 5
+    speed_pers = 3
 
     screen = pygame.display.set_mode(size)
     pygame.mixer.music.load("other/sounds/fon.mp3")
@@ -39,6 +35,9 @@ def main():
 
     my_sprite_for_fire = Fire()
     my_group_for_fire = pygame.sprite.Group(my_sprite_for_fire)
+    number_while = 0
+    number_event = 0
+    number_clikov = 0
 
     player = Person()
     player.update(which_way, speed_pers)
@@ -60,26 +59,36 @@ def main():
         treeeeee.tree(screen)
         run_gr = False
     while running:
+        number_while += 1
         for event in pygame.event.get():
+            number_event += 1
             if event.type == pygame.QUIT:
                 running = False
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_UP):
                 which_way = 'up'
+                number_clikov += 1
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_DOWN):
                 which_way = 'down'
+                number_clikov += 1
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_LEFT):
                 which_way = 'left'
+                number_clikov += 1
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_RIGHT):
                 which_way = 'right'
+                number_clikov += 1
 
+            # что то на подобии ускорения, нужно допиливать
+            if number_clikov > 10:
+                speed_pers = 5
+            else:
+                speed_pers = 3
+            if number_clikov > 17:
+                number_clikov = 0
             player.update(which_way, speed_pers)
-
-
-            # ТУТ КНОПКИ ПЕРСОНАЖ И ТП
 
         board.render(screen)
 

@@ -68,7 +68,6 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         else:
             self.images_person_now = self.images_person_down  # стандарт
 
-
         if self.speed_pers == 3:
             self.index += 1
         elif self.speed_pers == 5:
@@ -82,7 +81,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
             self.index = 0
 
     def rendering(self):
-        self.image_pers = pygame.transform.scale(self.images_person_now[self.index], (300, 300))
+        self.image_pers = pygame.transform.scale(self.images_person_now[self.index], (400, 400))
         screen.blit(self.image_pers, (self.x, self.y))
 
 
