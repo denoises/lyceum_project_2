@@ -65,6 +65,18 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         elif self.which_way == 'right':
             self.x += self.speed_pers
             self.images_person_now = self.images_person_right
+        elif self.which_way == 'right_up':
+            self.x += self.speed_pers
+            self.images_person_now = self.images_person_right_up
+        elif self.which_way == 'right_down':
+            self.x += self.speed_pers
+            self.images_person_now = self.images_person_right_down
+        elif self.which_way == 'left_up':
+            self.x -= self.speed_pers
+            self.images_person_now = self.images_person_left_up
+        elif self.which_way == 'left_down':
+            self.x -= self.speed_pers
+            self.images_person_now = self.images_person_left_down
         else:
             self.images_person_now = self.images_person_down  # стандарт
 
