@@ -36,30 +36,41 @@ class Tree_class:  # это что, елка?
                       pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
                       ]
 
-        # max_y_tree = 0
-        # min_y_tree = 1080
-        # max_x_tree = 1920
-        # min_x_tree = 0
-        cal_tree_max = 200  # количество елок
-        cal_tree_now = 0
+        self.cal_tree_max = 200  # количество елок
+        self.cal_tree_now = 0
+        self.tree_image_random_scale = []
+        self.random_x_cooord = []
+        self.random_y_cooord = []
+        generation_of_trees = []
 
-        while cal_tree_now < cal_tree_max:
+        self.num_el = 0
+        while self.cal_tree_now < self.cal_tree_max:
             tree_image_random = tree_image[random.randint(0, 9)]
             a = random.randint(300, 430)
-            tree_image_random_scale = pygame.transform.scale(tree_image_random, (a, a))  # рандомный размер елок
+            self.tree_image_random_scale.append(
+                pygame.transform.scale(tree_image_random, (a, a)))  # рандомный размер елок
 
             proverka = 0
             while proverka == 0:
-                random_y_cooord = random.randint(-300, 1080)
-                random_x_cooord = random.randint(-300, 1920)
-                if 500 < random_x_cooord < 1100 and 150 < random_y_cooord < 650:  # область для костра
+                random_x_cooord_1 = random.randint(-300, 1920)
+                random_y_cooord_1 = random.randint(-300, 1080)
+
+                if 500 < random_x_cooord_1 < 1100 and 150 < random_y_cooord_1 < 650:  # область для костра
                     proverka = 0
                 else:
                     proverka = 1
+                    self.random_x_cooord.append(random_x_cooord_1)
+                    self.random_y_cooord.append(random_y_cooord_1)
+                self.num_el += 1
 
-            screen.blit(tree_image_random_scale,
-                        (random_x_cooord, random_y_cooord))  # отрисовка ёлок
-            cal_tree_now += 1
+            self.cal_tree_now += 1
+
+    def render_tree(self):
+        n = 0
+        while n < self.cal_tree_max:
+            screen.blit(self.tree_image_random_scale[n],
+                        (self.random_x_cooord[n], self.random_y_cooord[n]))  # отрисовка ёлок
+            n += 1
 
 
 class Board:  # доска?
@@ -101,3 +112,55 @@ class Board:  # доска?
                 # выстраиваем из них сетку
                 screen.blit(self.small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                     self.cell_size, self.cell_size))
+
+
+def main():
+    global which_way, scores
+    which_way = 'down'
+    speed_pers = 3
+
+    screen = pygame.display.set_mode(size)
+    number_while = 0
+    number_event = 0
+    number_clikov = 0
+
+    board = Board(18, 9)
+    # clouds = Clouds()
+
+    board.set_view(0, 0, 150)
+    treeeeee = Tree_class(0, 1920, 1080, 0)
+
+    treeeeee.tree(screen)
+
+    running = True
+    pygame.init()
+
+    run_gr = True
+    while run_gr:
+        treeeeee.tree(screen)
+        run_gr = False
+    while running:
+        number_while += 1
+        for event in pygame.event.get():
+            number_event += 1
+            if event.type == pygame.QUIT:
+                running = False
+            # что то на подобии ускорения, нужно допиливать
+            if number_clikov > 10:
+                speed_pers = 5
+            else:
+                speed_pers = 3
+            if number_clikov > 17:
+                number_clikov = 0
+
+        board.render(screen)
+
+        # clouds.render()
+        treeeeee.render_tree()
+        pygame.display.flip()
+        clock.tick(60)
+    pygame.quit()
+
+
+if __name__ == '__main__':
+    main()

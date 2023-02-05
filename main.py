@@ -43,7 +43,7 @@ def scores_game():
 def main():
     global which_way, scores
     which_way = 'down'
-    speed_pers = 3
+    speed_pers = 5
 
     screen = pygame.display.set_mode(size)
     pygame.mixer.music.load("other/sounds/fon.mp3")
@@ -67,6 +67,7 @@ def main():
 
     board.set_view(0, 0, 150)
     treeeeee = Tree_class(0, 1920, 1080, 0)
+    treeeeee.tree(screen)
 
     running = True
     pygame.init()
@@ -105,19 +106,20 @@ def main():
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
-                speed_pers = 5
+                speed_pers = 10
             else:
-                speed_pers = 3
+                speed_pers = 5
             if number_clikov > 17:
                 number_clikov = 0
 
         board.render(screen)
 
         my_group_for_fire.update()  # АААА горим
+        treeeeee.render_tree()
         player.rendering()
         group_for_light.update()
         # clouds.render()
-        treeeeee.tree(screen)
+
         scores_game()
         pygame.display.flip()
         clock.tick(60)
