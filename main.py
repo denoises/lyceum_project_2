@@ -106,7 +106,7 @@ def main():
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
-                speed_pers = 10
+                speed_pers = 15
             else:
                 speed_pers = 5
             if number_clikov > 17:
@@ -115,13 +115,18 @@ def main():
         board.render(screen)
 
         my_group_for_fire.update()  # АААА горим
-        treeeeee.render_tree()
+
+
         player.rendering()
+
+        treeeeee.render_tree()
+
         group_for_light.update()
         # clouds.render()
 
         scores_game()
         pygame.display.flip()
+        scores -= 1
         clock.tick(60)
     pygame.quit()
 

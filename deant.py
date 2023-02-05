@@ -31,56 +31,51 @@ def load_image(name, colorkey=None):
         image = image.convert_alpha()
     return image
 
-class Ball(pygame.sprite.Sprite):
-    def __init__(self, radius, x, y):
+
+class Mountain(pygame.sprite.Sprite):
+    image = load_image("mountains.png")
+
+    def __init__(self):
         super().__init__(all_sprites)
-        self.radius = radius
-        self.image = pygame.Surface((2 * radius, 2 * radius),
-                                    pygame.SRCALPHA, 32)
-        pygame.draw.circle(self.image, pygame.Color("red"),
-                           (radius, radius), radius)
-        self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
-        self.vx = random.randint(-5, 5)
-        self.vy = random.randrange(-5, 5)
-
-    def update(self, *args):
-        self.rect = self.rect.move(self.vx, self.vy)
-        if pygame.sprite.spritecollideany(self, horizontal_borders):
-            self.vy = -self.vy
-        if pygame.sprite.spritecollideany(self, vertical_borders):
-            self.vx = -self.vx
+        self.image = Mountain.image
+        self.rect = self.image.get_rect()
+        # вычисляем маску для эффективного сравнения
+        self.mask = pygame.mask.from_surface(self.image)
+        # располагаем горы внизу
+        self.rect.bottom = height
 
 
-class Border(pygame.sprite.Sprite):
-    # строго вертикальный или строго горизонтальный отрезок
-    def __init__(self, x1, y1, x2, y2):
+mountain = Mountain()
+
+
+class Landing(pygame.sprite.Sprite):
+    image = load_image("pt.png")
+
+    def __init__(self, pos):
         super().__init__(all_sprites)
-        if x1 == x2:  # вертикальная стенка
-            self.add(vertical_borders)
-            self.image = pygame.Surface([1, y2 - y1])
-            self.rect = pygame.Rect(x1, y1, 1, y2 - y1)
-        else:  # горизонтальная стенка
-            self.add(horizontal_borders)
-            self.image = pygame.Surface([x2 - x1, 1])
-            self.rect = pygame.Rect(x1, y1, x2 - x1, 1)
+        self.image = Landing.image
+        self.rect = self.image.get_rect()
+        # вычисляем маску для эффективного сравнения
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
 
+    def update(self):
+        if not pygame.sprite.collide_mask(self, mountain):
+            self.rect = self.rect.move(0, 1)
 
 
 def main():
     running = True
     start = True
     clock = pygame.time.Clock()
-    Border(5, 5, 815, 5)
-    Border(5, 815, 815, 815)
-    Border(5, 5, 5, 815)
-    Border(815, 5, 815, 815)
-
-    for i in range(20):
-        Ball(20, 100, 100)
 
     x = 0
     f = True
     cursor = pygame.sprite.Sprite()
+
+    Landing((100, 100))
+
     while running:
         if x + 200 > 500:
             f = False
@@ -94,14 +89,21 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                Landing(event.pos)
+
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_SPACE):
                 start = not start
+
             all_sprites.update(event)
         screen.fill('#000000')
         all_sprites.draw(screen)
         all_sprites.update()
+        clock.tick(30)
         pygame.display.flip()
+
     pygame.quit()
 
 
