@@ -20,7 +20,10 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.x = 800
         self.y = 500
         self.speed_pers = 5
-
+        #
+        #
+        # ХОДИТ И ДУМАЕТ ЧТО СВОРОВАТЬ:
+        #
         # right
         self.images_person_right = [pygame.image.load(f"image/low_settings/person/right/right00{i:02d}.png") for i in
                                     range(1, 50)]
@@ -49,6 +52,43 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.images_person_right_down = [
             pygame.image.load(f"image/low_settings/person/right down/right_down00{i:02d}.png") for i in
             range(1, 50)]
+        #
+        #
+        #
+        # ВОРУЕТ ДЕРЕВО:
+        #
+        self.images_person_take_throw_down = [
+            pygame.image.load(f"image/low_settings/person_take-throw/down/person_take-throw_down{i:04d}.png") for i in
+            range(1, 10)]
+        self.images_person_take_throw_right = [
+            pygame.image.load(f"image/low_settings/person_take-throw/right/person_take-throw_right{i:04d}.png") for i in
+            range(1, 10)]
+        self.images_person_take_throw_left = [
+            pygame.image.load(f"image/low_settings/person_take-throw/left/person_take-throw_left{i:04d}.png") for i in
+            range(1, 10)]
+        self.images_person_take_throw_up = [
+            pygame.image.load(f"image/low_settings/person_take-throw/up/person_take-throw_up{i:04d}.png") for i in
+            range(1, 10)]
+        #
+        #
+        #
+        # УКРАЛ ДЕРЕВО, и радостно бежит:
+        #
+        self.images_person_with_tree_right = [
+            pygame.image.load(f"image/low_settings/person_with_tree/right/person_with_tree_right{i:04d}.png") for i in
+            range(1, 50)]
+        self.images_person_with_tree_left = [
+            pygame.image.load(f"image/low_settings/person_with_tree/left/person_with_tree_left{i:04d}.png") for i in
+            range(1, 50)]
+        self.images_person_with_tree_up = [
+            pygame.image.load(f"image/low_settings/person_with_tree/up/person_with_tree_up{i:04d}.png") for i in
+            range(1, 50)]
+        self.images_person_with_tree_down = [
+            pygame.image.load(f"image/low_settings/person_with_tree/down/person_with_tree_down{i:04d}.png") for i in
+            range(1, 50)]
+        #
+        #
+        #
 
     def update(self, which_way, speed_pers):
         self.which_way = which_way

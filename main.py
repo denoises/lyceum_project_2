@@ -7,6 +7,7 @@ from start_screen_and_cursor import start_screen
 from weather import Light
 from person import Person
 from fire import Fire
+from load_image import load_image
 
 pygame.init()
 size = width, height = 1920, 1080
@@ -23,8 +24,24 @@ rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
 rand_gen_for_clouds = int(random.randint(0, 10))
 
 
+def scores_game():
+    intro_text = (f"{scores}",
+                   ""
+                  )
+    font = pygame.font.Font(None, 30)
+    text_coord = 30
+    for line in intro_text:
+        string_rendered = font.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 960
+        text_coord += intro_rect.height
+        screen.blit(string_rendered, intro_rect)
+
+
 def main():
-    global which_way
+    global which_way, scores
     which_way = 'down'
     speed_pers = 3
 
@@ -68,18 +85,23 @@ def main():
                     and event.key == pygame.K_UP):
                 which_way = 'up'
                 number_clikov += 1
+                player.update(which_way, speed_pers)
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_DOWN):
                 which_way = 'down'
                 number_clikov += 1
+                player.update(which_way, speed_pers)
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_LEFT):
                 which_way = 'left'
                 number_clikov += 1
+                player.update(which_way, speed_pers)
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_RIGHT):
                 which_way = 'right'
                 number_clikov += 1
+                player.update(which_way, speed_pers)
+
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
@@ -88,7 +110,6 @@ def main():
                 speed_pers = 3
             if number_clikov > 17:
                 number_clikov = 0
-            player.update(which_way, speed_pers)
 
         board.render(screen)
 
@@ -97,6 +118,7 @@ def main():
         group_for_light.update()
         # clouds.render()
         treeeeee.tree(screen)
+        scores_game()
         pygame.display.flip()
         clock.tick(60)
     pygame.quit()
