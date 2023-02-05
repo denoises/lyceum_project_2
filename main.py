@@ -7,6 +7,7 @@ from start_screen_and_cursor import start_screen
 from weather import Light
 from person import Person
 from fire import Fire
+from timer import Timer
 from load_image import load_image
 
 pygame.init()
@@ -125,6 +126,7 @@ def main():
         # clouds.render()
 
         scores_game()
+        Timer()
         pygame.display.flip()
         scores -= 1
         clock.tick(60)

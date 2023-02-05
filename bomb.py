@@ -30,8 +30,8 @@ def load_image(name, colorkey=None):
     return image
 
 class Bomb(pygame.sprite.Sprite):
-    image = load_image("img/bomb.png")
-    image_boom = load_image("img/boom.png")
+    image = load_image("image/low_settings/person_with_tree/right/person_with_tree_right0004.png")
+    image_boom = load_image("image/low_settings/person/right/right0004.png")
     def __init__(self, *group):
         super().__init__(*group)
         self.image = Bomb.image
