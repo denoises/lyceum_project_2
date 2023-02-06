@@ -113,6 +113,8 @@ def main():
             if number_clikov > 17:
                 number_clikov = 0
 
+
+
         board.render(screen)
 
         my_group_for_fire.update()  # АААА горим

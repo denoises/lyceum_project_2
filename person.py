@@ -15,7 +15,6 @@ clock = pygame.time.Clock()
 class Person(pygame.sprite.Sprite):  # маленький лесорубик
     def __init__(self):
         super(Person, self).__init__()
-
         self.index = 0
         self.x = 800
         self.y = 500
