@@ -85,7 +85,7 @@ class Fire(pygame.sprite.Sprite):  # костёр
         if collide_p_f:
             sound_of_taking()
             self.proverka_col_fire = 1
-            Fire.colizion_f.proverka_col_f = self.proverka_col_fire
+            Fire.colizion_f.proverka_col_fire = self.proverka_col_fire
 
 
 def sound_of_taking():

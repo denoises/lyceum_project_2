@@ -74,6 +74,7 @@ def main():
     running = True
     pygame.init()
     player_take_anim = False
+    player_throw_anim = False
     run_gr = True
     while run_gr:
         treeeeee.tree(screen)
@@ -117,10 +118,9 @@ def main():
                         x = Person.rendering.x_coodr_person_osn
                         y = Person.rendering.y_coodr_person_osn
                         fire_cl.colizion_f(x, y)
-                        ok_fire = Fire.colizion_f.proverka_col_f
+                        ok_fire = Fire.colizion_f.proverka_col_fire
                         if ok_fire == 1:
-                            pass
-
+                            player_throw_anim = True
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
@@ -136,13 +136,22 @@ def main():
 
         treeeeee.render_tree()
         # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу
-        if player_take_anim == True:
+        if player_take_anim == True:  # анимка взятия
 
             n_a_p += 1
             player.take_el(which_way)
             if n_a_p >= 9:
                 n_a_p = 0
                 player_take_anim = False
+                player.rendering()
+
+        if player_throw_anim == True:  # анимка кидания
+
+            n_a_p += 1
+            player.throw_el(which_way)
+            if n_a_p >= 9:
+                n_a_p = 0
+                player_throw_anim = False
                 player.rendering()
 
         player.rendering()
