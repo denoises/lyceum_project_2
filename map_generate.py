@@ -47,7 +47,7 @@ class Tree_class:  # это что, елка?
                       pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
                       ]
 
-        self.cal_tree_max = random.randint(140, 210)  # количество елок
+        self.cal_tree_max = random.randint(40, 100)  # количество елок
 
         self.cal_tree_now = 0
         self.tree_image_random_scale = []
@@ -58,16 +58,16 @@ class Tree_class:  # это что, елка?
         self.num_el = 0
         while self.cal_tree_now < self.cal_tree_max:
             tree_image_random = tree_image[random.randint(0, 9)]
-            a = random.randint(130, 240)
+            a = random.randint(170, 240)
             self.tree_image_random_scale.append(
                 pygame.transform.scale(tree_image_random, (a, a)))  # рандомный размер елок
 
             proverka = 0
             while proverka == 0:
-                random_x_cooord_1 = random.randint(-300, 1920)
-                random_y_cooord_1 = random.randint(-300, 1080)
+                random_x_cooord_1 = random.randint(-100, 1920)
+                random_y_cooord_1 = random.randint(-100, 1080)
 
-                if 500 < random_x_cooord_1 < 1100 and 150 < random_y_cooord_1 < 650:  # область для костра
+                if 570 < random_x_cooord_1 < 1220 and 150 < random_y_cooord_1 < 720:  # область для костра
                     proverka = 0
                 else:
                     proverka = 1
@@ -107,6 +107,7 @@ class Tree_class:  # это что, елка?
                 sound_of_taking()
                 break
             n += 1
+
 
 class Board:  # доска?
     # создание поля

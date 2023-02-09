@@ -139,13 +139,14 @@ def main():
 
         treeeeee.render_tree()
         # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу
+        player.rendering()
+
         if player_take_anim == True:  # анимка взятия
             n_a_p += 1
             player.take_el(which_way)
             if n_a_p >= 9:
                 n_a_p = 0
                 player_take_anim = False
-                player.rendering()
 
         if player_throw_anim == True:  # анимка кидания
             n_a_p += 1
@@ -153,9 +154,8 @@ def main():
             if n_a_p >= 9:
                 n_a_p = 0
                 player_throw_anim = False
-                player.rendering()
 
-        player.rendering()
+
         group_for_light.update()
         # clouds.render()
 
