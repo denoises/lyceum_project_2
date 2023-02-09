@@ -16,8 +16,8 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
     def __init__(self):
         super(Person, self).__init__()
         self.index = 0
-        self.x = 800
-        self.y = 500
+        self.x_coodr_person_osn = 800
+        self.y_coodr_person_osn = 500
         self.speed_pers = 5
         #
         #
@@ -94,27 +94,27 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.speed_pers = speed_pers
         if self.which_way == 'up':
             self.images_person_now = self.images_person_up
-            self.y -= self.speed_pers
+            self.y_coodr_person_osn -= self.speed_pers
         elif self.which_way == 'down':
-            self.y += self.speed_pers
+            self.y_coodr_person_osn += self.speed_pers
             self.images_person_now = self.images_person_down
         elif self.which_way == 'left':
-            self.x -= self.speed_pers
+            self.x_coodr_person_osn -= self.speed_pers
             self.images_person_now = self.images_person_left
         elif self.which_way == 'right':
-            self.x += self.speed_pers
+            self.x_coodr_person_osn += self.speed_pers
             self.images_person_now = self.images_person_right
         elif self.which_way == 'right_up':
-            self.x += self.speed_pers
+            self.x_coodr_person_osn += self.speed_pers
             self.images_person_now = self.images_person_right_up
         elif self.which_way == 'right_down':
-            self.x += self.speed_pers
+            self.x_coodr_person_osn += self.speed_pers
             self.images_person_now = self.images_person_right_down
         elif self.which_way == 'left_up':
-            self.x -= self.speed_pers
+            self.x_coodr_person_osn -= self.speed_pers
             self.images_person_now = self.images_person_left_up
         elif self.which_way == 'left_down':
-            self.x -= self.speed_pers
+            self.x_coodr_person_osn -= self.speed_pers
             self.images_person_now = self.images_person_left_down
         else:
             self.images_person_now = self.images_person_down  # стандарт
@@ -130,12 +130,14 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
 
         if self.index >= len(self.images_person_now):
             self.index = 0
-
-        print(f'coord_person = {self.x, self.y}')
+        self.x_coodr_person_osn, self.y_coodr_person_osn = self.x_coodr_person_osn, self.y_coodr_person_osn
+        print(f'coord_person = {self.x_coodr_person_osn, self.y_coodr_person_osn}')
 
     def rendering(self):
         self.image_pers = pygame.transform.scale(self.images_person_now[self.index], (400, 400))
-        screen.blit(self.image_pers, (self.x, self.y))
+        screen.blit(self.image_pers, (self.x_coodr_person_osn, self.y_coodr_person_osn))
+        Person.rendering.x_coodr_person_osn = self.x_coodr_person_osn
+        Person.rendering.y_coodr_person_osn = self.y_coodr_person_osn
 
 
 def main():

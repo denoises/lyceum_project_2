@@ -15,8 +15,8 @@ scores = 1000  # баллы
 
 rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
 player = Person()
-x_pers_g = player.x
-y_pers_g = player.y
+x_pers_g = player.x_coodr_person_osn
+y_pers_g = player.y_coodr_person_osn
 
 
 class Tree_class:  # это что, елка?
@@ -29,9 +29,9 @@ class Tree_class:  # это что, елка?
         self.max_y_tree = max_y_tree
 
         self.speed_pers = player.speed_pers
-        self.x_pers = player.x
-        self.y_pers = player.y
-        print(self.x_pers, self.y_pers)
+        self.x_coord_person = player.x_coodr_person_osn
+        self.y_coord_person = player.y_coodr_person_osn
+        print(self.x_coord_person, self.y_coord_person)
 
     def tree(self, screen):
         # большой и разнообразный выбор
@@ -47,7 +47,8 @@ class Tree_class:  # это что, елка?
                       pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
                       ]
 
-        self.cal_tree_max = 200  # количество елок
+        self.cal_tree_max = random.randint(150, 230)  # количество елок
+
         self.cal_tree_now = 0
         self.tree_image_random_scale = []
         self.random_x_cooord = []
@@ -91,11 +92,11 @@ class Tree_class:  # это что, елка?
 
         while n < self.cal_tree_max:
             # надо как то понять как получать координаты персонажа в даеный момент
-            print(self.x_pers, self.y_pers)  # вот эти *--координаты
+            print(self.x_coord_person, self.y_coord_person)  # вот эти *--координаты
             pers_rect = pygame.image.load(
                 # это коллизая персонажа, первый параметр - картинка, как я понял она просто для понимания высоты и шиниры, второй и третий координаты
                 f"image/low_settings/person_take-throw/down/person_take-throw_down0001.png").get_rect(
-                topleft=(self.x_pers, self.y_pers))
+                topleft=(self.x_coord_person, self.y_coord_person))
             el_rect = self.tree_image_random_scale[n].get_rect(  # тоже самое с ёлкой
                 topleft=(self.random_x_cooord[n], self.random_y_cooord[n]))
 

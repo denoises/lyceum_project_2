@@ -60,6 +60,7 @@ def main():
     player = Person()
     player.update(which_way, speed_pers)
 
+
     sprite_for_light = Light()
     group_for_light = pygame.sprite.Group(sprite_for_light)
 
@@ -69,6 +70,7 @@ def main():
     board.set_view(0, 0, 150)
     treeeeee = Tree_class(0, 1920, 1080, 0)
     treeeeee.tree(screen)
+
 
     running = True
     pygame.init()
@@ -86,8 +88,10 @@ def main():
 
             if event.type == pygame.KEYDOWN:  # Пробил - рубка дерева
                 if event.key == pygame.K_SPACE:
-                    # treeeeee.col_proverka(# тут x и y но их надо как то вынести)
-                    pass
+                    x = Person.rendering.x_coodr_person_osn
+                    y = Person.rendering.y_coodr_person_osn
+                    print(x, y)
+                    treeeeee.col_proverka(x, y)
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_UP):
                 which_way = 'up'
