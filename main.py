@@ -8,6 +8,7 @@ from weather import Light
 from person import Person
 from fire import Fire
 from timer import Timer
+from final_screen import Final
 from load_image import load_image
 
 pygame.init()
@@ -19,7 +20,7 @@ horizontal_borders = pygame.sprite.Group()
 vertical_borders = pygame.sprite.Group()
 clock = pygame.time.Clock()
 
-scores = 50  # баллы 1000 стандарт
+scores = 1000  # баллы 1000 стандарт
 
 rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
 rand_gen_for_clouds = int(random.randint(0, 10))
@@ -63,7 +64,7 @@ def main():
     f = open('nickname.txt', mode='r', encoding='utf-8')
     name_player = f.readlines()[0]
     print(name_player)
-
+    aaa = 0
     board = Board(18, 9)
     # clouds = Clouds()
     fire_cl = Fire()
@@ -86,6 +87,9 @@ def main():
             number_event += 1
             if event.type == pygame.QUIT:
                 running = False
+            if (event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_r):
+                main()
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_UP):
                 which_way = 'up'
@@ -125,7 +129,7 @@ def main():
                         if f == 1:
                             print('in fire colizion')
                             player_throw_anim = True
-                            scores += 50
+                            scores += 40
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
@@ -165,17 +169,19 @@ def main():
             light_cl.render_20()
         if scores < 550:
             light_cl.render_30()
-        if scores < 400:
-            light_cl.render_40()
         if scores < 300:
+            light_cl.render_40()
+        if scores < 160:
             light_cl.render_50()
-        if scores < 150:
+        if scores < 80:
             light_cl.render_80()
-
 
         if scores <= 0 and pp != 1:
             light_cl.render_100()
             print('GG')
+            gg_s = pygame.mixer.Sound('other/sounds/gg.mp3')
+            gg_s.play()
+
             con = sqlite3.connect('bd/BD_for_axmans.db')
             cursor = con.cursor()
             my_time = Timer.mytime
@@ -185,6 +191,11 @@ def main():
             pp = 1
             con.commit()
             con.close()
+            aaa = 1
+
+        if aaa == 1:
+            Final()
+
         scores_game()
         Timer()
         pygame.display.flip()

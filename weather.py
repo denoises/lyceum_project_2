@@ -12,7 +12,6 @@ clock = pygame.time.Clock()
 rand_gen_for_clouds = int(random.randint(0, 10))
 
 
-
 # нужно прибавлять переменную self.ind_light если игрок начинает проигрывать НА ДАННЫЙ МОМЕНТ НЕ ГОТОВО
 class Light(pygame.sprite.Sprite):
     def __init__(self):
@@ -32,25 +31,30 @@ class Light(pygame.sprite.Sprite):
     def render_10(self):
         self.image_light = pygame.transform.scale(self.img_light[1], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
+
     def render_20(self):
         self.image_light = pygame.transform.scale(self.img_light[2], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
+
     def render_30(self):
         self.image_light = pygame.transform.scale(self.img_light[3], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
+
     def render_40(self):
         self.image_light = pygame.transform.scale(self.img_light[4], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
+
     def render_50(self):
         self.image_light = pygame.transform.scale(self.img_light[5], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
+
     def render_80(self):
         self.image_light = pygame.transform.scale(self.img_light[6], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
+
     def render_100(self):
         self.image_light = pygame.transform.scale(self.img_light[7], (1920, 1080))
         screen.blit(self.image_light, (0, 0))
-
 
 
 class Clouds:  # задумка хорошая, но реализовать нормально сложно
