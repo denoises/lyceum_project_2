@@ -131,6 +131,8 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         if self.index >= len(self.images_person_now):
             self.index = 0
 
+        print(f'coord_person = {self.x, self.y}')
+
     def rendering(self):
         self.image_pers = pygame.transform.scale(self.images_person_now[self.index], (400, 400))
         screen.blit(self.image_pers, (self.x, self.y))

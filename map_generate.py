@@ -47,7 +47,7 @@ class Tree_class:  # это что, елка?
                       pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
                       ]
 
-        self.cal_tree_max = 50  # количество елок
+        self.cal_tree_max = 200  # количество елок
         self.cal_tree_now = 0
         self.tree_image_random_scale = []
         self.random_x_cooord = []
@@ -78,9 +78,20 @@ class Tree_class:  # это что, елка?
 
     def render_tree(self):
         n = 0
+
+        while n < self.cal_tree_max:
+            screen.blit(self.tree_image_random_scale[n],
+                        (self.random_x_cooord[n], self.random_y_cooord[n]))  # отрисовка ёлок
+            n += 1
+
+    def col_proverka(self, x, y):
+        n = 0
+        self.x_coord_person = x
+        self.y_coord_person = y
+
         while n < self.cal_tree_max:
             # надо как то понять как получать координаты персонажа в даеный момент
-            print(self.x_pers, self.y_pers)  # вот эти координаты
+            print(self.x_pers, self.y_pers)  # вот эти *--координаты
             pers_rect = pygame.image.load(
                 # это коллизая персонажа, первый параметр - картинка, как я понял она просто для понимания высоты и шиниры, второй и третий координаты
                 f"image/low_settings/person_take-throw/down/person_take-throw_down0001.png").get_rect(

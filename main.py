@@ -83,6 +83,11 @@ def main():
             number_event += 1
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.KEYDOWN:  # Пробил - рубка дерева
+                if event.key == pygame.K_SPACE:
+                    # treeeeee.col_proverka(# тут x и y но их надо как то вынести)
+                    pass
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_UP):
                 which_way = 'up'
