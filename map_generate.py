@@ -58,7 +58,7 @@ class Tree_class:  # это что, елка?
         self.num_el = 0
         while self.cal_tree_now < self.cal_tree_max:
             tree_image_random = tree_image[random.randint(0, 9)]
-            a = random.randint(300, 430)
+            a = random.randint(140, 250)
             self.tree_image_random_scale.append(
                 pygame.transform.scale(tree_image_random, (a, a)))  # рандомный размер елок
 
