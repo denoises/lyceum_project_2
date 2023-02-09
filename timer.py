@@ -22,6 +22,7 @@ class Timer:
         seconds = int(ticks / 1000 % 60)
         minutes = int(ticks / 60000 % 24)
         self.out = '{minutes:02d}:{seconds:02d}:{millis}'.format(minutes=minutes, millis=millis, seconds=seconds)
+        Timer.mytime = self.out
         self.font.render_to(screen, (932, 30), self.out, pygame.Color((255, 255, 255)))
 
 

@@ -1,5 +1,5 @@
 import random
-
+import sqlite3
 import pygame
 
 from map_generate import Tree_class, Board
@@ -19,7 +19,7 @@ horizontal_borders = pygame.sprite.Group()
 vertical_borders = pygame.sprite.Group()
 clock = pygame.time.Clock()
 
-scores = 1000  # баллы
+scores = 50  # баллы 1000 стандарт
 
 rand_gen_for_patern = [random.randint(0, 9) for i in range(162)]
 rand_gen_for_clouds = int(random.randint(0, 10))
@@ -45,7 +45,7 @@ def main():
     global which_way, scores
     which_way = 'down'
     speed_pers = 5
-
+    pp = 0
     screen = pygame.display.set_mode(size)
     pygame.mixer.music.load("other/sounds/fon.mp3")
     pygame.mixer.music.play(-1)
@@ -60,8 +60,9 @@ def main():
     player = Person()
     player.update(which_way, speed_pers)
 
-    sprite_for_light = Light()
-    group_for_light = pygame.sprite.Group(sprite_for_light)
+    f = open('nickname.txt', mode='r', encoding='utf-8')
+    name_player = f.readlines()[0]
+    print(name_player)
 
     board = Board(18, 9)
     # clouds = Clouds()
@@ -69,7 +70,7 @@ def main():
     board.set_view(0, 0, 150)
     treeeeee = Tree_class(0, 1920, 1080, 0)
     treeeeee.tree(screen)
-
+    light_cl = Light()
     n_a_p = 0
     running = True
     pygame.init()
@@ -124,6 +125,7 @@ def main():
                         if f == 1:
                             print('in fire colizion')
                             player_throw_anim = True
+                            scores += 50
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
@@ -155,14 +157,39 @@ def main():
                 n_a_p = 0
                 player_throw_anim = False
 
-
-        group_for_light.update()
         # clouds.render()
 
+        if scores < 850:
+            light_cl.render_10()
+        if scores < 650:
+            light_cl.render_20()
+        if scores < 550:
+            light_cl.render_30()
+        if scores < 400:
+            light_cl.render_40()
+        if scores < 300:
+            light_cl.render_50()
+        if scores < 150:
+            light_cl.render_80()
+
+
+        if scores <= 0 and pp != 1:
+            light_cl.render_100()
+            print('GG')
+            con = sqlite3.connect('bd/BD_for_axmans.db')
+            cursor = con.cursor()
+            my_time = Timer.mytime
+            print(my_time)
+            ff = cursor.execute(f""" INSERT INTO players_score(name, time) VALUES(?, ?)""",
+                                (f'{str(name_player)}', f'{str(my_time)}'))
+            pp = 1
+            con.commit()
+            con.close()
         scores_game()
         Timer()
         pygame.display.flip()
-        scores -= 1
+        if scores > 0:
+            scores -= 1
         clock.tick(60)
     pygame.quit()
 

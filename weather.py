@@ -29,17 +29,28 @@ class Light(pygame.sprite.Sprite):
             pygame.image.load('other/light/100.png').convert_alpha()
         ]
 
-    def light_raise(self):
-        print('light_raise')
-        if self.ind_light < 8:
-            self.ind_light += 1
-            screen.blit(self.img_light[self.ind_light])
+    def render_10(self):
+        self.image_light = pygame.transform.scale(self.img_light[1], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
+    def render_20(self):
+        self.image_light = pygame.transform.scale(self.img_light[2], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
+    def render_30(self):
+        self.image_light = pygame.transform.scale(self.img_light[3], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
+    def render_40(self):
+        self.image_light = pygame.transform.scale(self.img_light[4], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
+    def render_50(self):
+        self.image_light = pygame.transform.scale(self.img_light[5], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
+    def render_80(self):
+        self.image_light = pygame.transform.scale(self.img_light[6], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
+    def render_100(self):
+        self.image_light = pygame.transform.scale(self.img_light[7], (1920, 1080))
+        screen.blit(self.image_light, (0, 0))
 
-    def light_lower(self):
-        print('light_lower')
-        if self.ind_light > 0:
-            self.ind_light -= 1
-            screen.blit(self.img_light[self.ind_light])
 
 
 class Clouds:  # задумка хорошая, но реализовать нормально сложно
