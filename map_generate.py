@@ -105,6 +105,7 @@ class Tree_class:  # это что, елка?
                 self.random_x_cooord.pop(n)
                 self.random_y_cooord.pop(n)
                 self.cal_tree_max -= 1
+                sound_of_taking()
                 break
             n += 1  # по идеи мы просто в предыдущий иф должны засунут проверку нажатия клавиши и всё. Но проблемма с понимаение как сделать коллизию у этих картинок
 
@@ -148,6 +149,11 @@ class Board:  # доска?
                 # выстраиваем из них сетку
                 screen.blit(self.small_img_ground, (x * self.cell_size + self.left, y * self.cell_size + self.top,
                                                     self.cell_size, self.cell_size))
+
+
+def sound_of_taking():
+    take_s = pygame.mixer.Sound('other/sounds/take-throw.mp3')
+    take_s.play()
 
 
 def main():

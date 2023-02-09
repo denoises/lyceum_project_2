@@ -27,7 +27,7 @@ rand_gen_for_clouds = int(random.randint(0, 10))
 
 def scores_game():
     intro_text = (f"{scores}",
-                   ""
+                  ""
                   )
     font = pygame.font.Font(None, 30)
     text_coord = 30
@@ -60,7 +60,6 @@ def main():
     player = Person()
     player.update(which_way, speed_pers)
 
-
     sprite_for_light = Light()
     group_for_light = pygame.sprite.Group(sprite_for_light)
 
@@ -70,7 +69,6 @@ def main():
     board.set_view(0, 0, 150)
     treeeeee = Tree_class(0, 1920, 1080, 0)
     treeeeee.tree(screen)
-
 
     running = True
     pygame.init()
@@ -122,14 +120,9 @@ def main():
             if number_clikov > 17:
                 number_clikov = 0
 
-
-
         board.render(screen)
 
         my_group_for_fire.update()  # АААА горим
-
-
-
 
         treeeeee.render_tree()
         # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу

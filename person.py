@@ -152,8 +152,6 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         if self.index >= len(self.images_person_now):
             self.index = 0
 
-
-
         self.x_coodr_person_osn, self.y_coodr_person_osn = self.x_coodr_person_osn, self.y_coodr_person_osn
         print(f'coord_person = {self.x_coodr_person_osn, self.y_coodr_person_osn}')
 
