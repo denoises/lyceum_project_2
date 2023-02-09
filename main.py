@@ -111,7 +111,7 @@ def main():
                         y = Person.rendering.y_coodr_person_osn
                         print(x, y)
                         treeeeee.col_proverka(x, y)
-                        player.take_el(which_way)
+                        player.take_el(which_way)  # нужно понять как сделать так чтобы оно делалось 10 раз(10 нажатий)
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
                 speed_pers = 15
