@@ -139,6 +139,29 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         Person.rendering.x_coodr_person_osn = self.x_coodr_person_osn
         Person.rendering.y_coodr_person_osn = self.y_coodr_person_osn
 
+    def take_el(self, which_way):  # пробебел нажат
+        self.index_take = 0
+        self.which_way = which_way # проверяем куда смотрит персонаж
+        if self.which_way == 'up':
+            self.images_person_now_take = self.images_person_take_throw_up
+        elif self.which_way == 'down':
+            self.images_person_now_take = self.images_person_take_throw_down
+        elif self.which_way == 'left':
+            self.images_person_now_take = self.images_person_take_throw_left
+        elif self.which_way == 'right':
+            self.images_person_now_take = self.images_person_with_tree_right
+        self.index_take += 1
+
+        while self.index_take >= len(self.images_person_now_take): # ПРОБЛЕММА, НУЖНО ПОНЯТЬ КАК ОТРИСОВАТЬ 10 КАДРОВ ОТДЕЛЬНО, ТАК КАК ФУНКЦИЯ РЕНДЕРА МЕШАЕТ РЕНДЕРУ ЭТИХ 10 КАДРОВ
+            self.image_pers_take = pygame.transform.scale(self.images_person_now_take[self.index_take], (400, 400))
+            screen.blit(self.image_pers_take, (self.x_coodr_person_osn, self.y_coodr_person_osn))
+            self.index_take += 1
+        self.index_take = 0
+
+    def throw_el(self, which_way):
+        self.which_way = which_way
+        pass
+
 
 def main():
     global which_way

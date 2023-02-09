@@ -47,7 +47,7 @@ class Tree_class:  # это что, елка?
                       pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
                       ]
 
-        self.cal_tree_max = random.randint(150, 230)  # количество елок
+        self.cal_tree_max = random.randint(140, 210)  # количество елок
 
         self.cal_tree_now = 0
         self.tree_image_random_scale = []
@@ -58,7 +58,7 @@ class Tree_class:  # это что, елка?
         self.num_el = 0
         while self.cal_tree_now < self.cal_tree_max:
             tree_image_random = tree_image[random.randint(0, 9)]
-            a = random.randint(140, 250)
+            a = random.randint(130, 240)
             self.tree_image_random_scale.append(
                 pygame.transform.scale(tree_image_random, (a, a)))  # рандомный размер елок
 
@@ -105,9 +105,7 @@ class Tree_class:  # это что, елка?
                 self.random_x_cooord.pop(n)
                 self.random_y_cooord.pop(n)
                 self.cal_tree_max -= 1
-            else:  # иначе рисуем
-                screen.blit(self.tree_image_random_scale[n],
-                            (self.random_x_cooord[n], self.random_y_cooord[n]))  # отрисовка ёлок
+                break
             n += 1  # по идеи мы просто в предыдущий иф должны засунут проверку нажатия клавиши и всё. Но проблемма с понимаение как сделать коллизию у этих картинок
 
 

@@ -85,13 +85,6 @@ def main():
             number_event += 1
             if event.type == pygame.QUIT:
                 running = False
-
-            if event.type == pygame.KEYDOWN:  # Пробил - рубка дерева
-                if event.key == pygame.K_SPACE:
-                    x = Person.rendering.x_coodr_person_osn
-                    y = Person.rendering.y_coodr_person_osn
-                    print(x, y)
-                    treeeeee.col_proverka(x, y)
             if (event.type == pygame.KEYDOWN
                     and event.key == pygame.K_UP):
                 which_way = 'up'
@@ -112,6 +105,13 @@ def main():
                 which_way = 'right'
                 number_clikov += 1
                 player.update(which_way, speed_pers)
+            if event.type == pygame.KEYDOWN:  # Пробел - рубка дерева
+                if event.key == pygame.K_SPACE:
+                    x = Person.rendering.x_coodr_person_osn
+                    y = Person.rendering.y_coodr_person_osn
+                    print(x, y)
+                    treeeeee.col_proverka(x, y)
+                    player.take_el(which_way)
 
 
             # что то на подобии ускорения, нужно допиливать
