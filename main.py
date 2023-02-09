@@ -107,13 +107,13 @@ def main():
                 player.update(which_way, speed_pers)
             if event.type == pygame.KEYDOWN:  # Пробел - рубка дерева
                 if event.key == pygame.K_SPACE:
-                    x = Person.rendering.x_coodr_person_osn
-                    y = Person.rendering.y_coodr_person_osn
-                    print(x, y)
-                    treeeeee.col_proverka(x, y)
-                    player.take_el(which_way)
-
-
+                    el_in_the_hands = Person.rendering.elll_in_the_hands
+                    if el_in_the_hands == 0:
+                        x = Person.rendering.x_coodr_person_osn
+                        y = Person.rendering.y_coodr_person_osn
+                        print(x, y)
+                        treeeeee.col_proverka(x, y)
+                        player.take_el(which_way)
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
                 speed_pers = 15
@@ -129,9 +129,11 @@ def main():
         my_group_for_fire.update()  # АААА горим
 
 
-        player.rendering()
+
 
         treeeeee.render_tree()
+        # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу
+        player.rendering()
 
         group_for_light.update()
         # clouds.render()
