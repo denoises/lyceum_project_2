@@ -65,14 +65,15 @@ def main():
 
     board = Board(18, 9)
     # clouds = Clouds()
-
+    fire_cl = Fire()
     board.set_view(0, 0, 150)
     treeeeee = Tree_class(0, 1920, 1080, 0)
     treeeeee.tree(screen)
 
+    n_a_p = 0
     running = True
     pygame.init()
-
+    player_take_anim = False
     run_gr = True
     while run_gr:
         treeeeee.tree(screen)
@@ -111,7 +112,16 @@ def main():
                         y = Person.rendering.y_coodr_person_osn
                         print(x, y)
                         treeeeee.col_proverka(x, y)
-                        player.take_el(which_way)  # нужно понять как сделать так чтобы оно делалось 10 раз(10 нажатий)
+                        player_take_anim = True
+                    else:
+                        x = Person.rendering.x_coodr_person_osn
+                        y = Person.rendering.y_coodr_person_osn
+                        fire_cl.colizion_f(x, y)
+                        ok_fire = Fire.colizion_f.proverka_col_f
+                        if ok_fire == 1:
+                            pass
+
+
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
                 speed_pers = 15
@@ -126,8 +136,16 @@ def main():
 
         treeeeee.render_tree()
         # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу
-        player.rendering()
+        if player_take_anim == True:
 
+            n_a_p += 1
+            player.take_el(which_way)
+            if n_a_p >= 9:
+                n_a_p = 0
+                player_take_anim = False
+                player.rendering()
+
+        player.rendering()
         group_for_light.update()
         # clouds.render()
 

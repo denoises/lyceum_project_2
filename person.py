@@ -23,6 +23,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.in_the_hands = 0  # если 1 то несёт елуку
         self.throw = 0  # если 1 то кидает елуку в костёр
         self.index_take = 0
+        self.index_throw = 0
 
         #
         #
@@ -156,7 +157,6 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         print(f'coord_person = {self.x_coodr_person_osn, self.y_coodr_person_osn}')
 
     def take_el(self, which_way):  # пробебел нажат
-        self.take = 1  #
         self.which_way = which_way  # проверяем куда смотрит персонаж
         if self.which_way == 'up':
             self.images_person_now_take = self.images_person_take_throw_up[::-1]
@@ -166,27 +166,43 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
             self.images_person_now_take = self.images_person_take_throw_left[::-1]
         elif self.which_way == 'right':
             self.images_person_now_take = self.images_person_with_tree_right[::-1]
+        self.take = 1
         self.index_take += 1
+        self.in_the_hands = 1
 
-        if self.index_take >= 8:
+        if self.index_take >= 9:
             self.index_take = 0
             self.take = 0
-            self.in_the_hands = 1
 
     def throw_el(self, which_way):
         self.which_way = which_way
-        pass
+        if self.which_way == 'up':
+            self.images_person_now_throw = self.images_person_take_throw_up
+        elif self.which_way == 'down':
+            self.images_person_now_throw = self.images_person_take_throw_down
+        elif self.which_way == 'left':
+            self.images_person_now_throw = self.images_person_take_throw_left
+        elif self.which_way == 'right':
+            self.images_person_now_throw = self.images_person_with_tree_right
+        self.throw = 1
+        self.index_throw += 1
+        self.in_the_hands = 0
+
+        if self.index_take >= 9:
+            self.index_throw = 0
+            self.throw = 0
 
     def rendering(self):
-        if self.take == 0:
+        if self.take == 1:
+            self.image_pers_take = pygame.transform.scale(self.images_person_now_take[self.index_take], (400, 400))
+            screen.blit(self.image_pers_take, (self.x_coodr_person_osn, self.y_coodr_person_osn))
+            Person.rendering.elll_in_the_hands = self.in_the_hands
+
+        else:
             self.image_pers = pygame.transform.scale(self.images_person_now[self.index], (400, 400))
             screen.blit(self.image_pers, (self.x_coodr_person_osn, self.y_coodr_person_osn))
             Person.rendering.x_coodr_person_osn = self.x_coodr_person_osn
             Person.rendering.y_coodr_person_osn = self.y_coodr_person_osn
-            Person.rendering.elll_in_the_hands = self.in_the_hands
-        elif self.take == 1:
-            self.image_pers_take = pygame.transform.scale(self.images_person_now_take[self.index_take], (400, 400))
-            screen.blit(self.image_pers_take, (self.x_coodr_person_osn, self.y_coodr_person_osn))
             Person.rendering.elll_in_the_hands = self.in_the_hands
 
 

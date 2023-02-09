@@ -91,8 +91,7 @@ class Tree_class:  # это что, елка?
         self.y_coord_person = y
 
         while n < self.cal_tree_max:
-            # надо как то понять как получать координаты персонажа в даеный момент
-            print(self.x_coord_person, self.y_coord_person)  # вот эти *--координаты
+            print(self.x_coord_person, self.y_coord_person)
             pers_rect = pygame.image.load(
                 # это коллизая персонажа, первый параметр - картинка, как я понял она просто для понимания высоты и шиниры, второй и третий координаты
                 f"image/low_settings/person_take-throw/down/person_take-throw_down0001.png").get_rect(
@@ -107,8 +106,7 @@ class Tree_class:  # это что, елка?
                 self.cal_tree_max -= 1
                 sound_of_taking()
                 break
-            n += 1  # по идеи мы просто в предыдущий иф должны засунут проверку нажатия клавиши и всё. Но проблемма с понимаение как сделать коллизию у этих картинок
-
+            n += 1
 
 class Board:  # доска?
     # создание поля
