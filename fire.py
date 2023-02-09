@@ -62,6 +62,7 @@ class Fire(pygame.sprite.Sprite):  # костёр
         self.index = 0
         self.rect = pygame.Rect(5, 5, 400, 198)
         self.proverka_col_fire = 0
+        Fire.colizion_f.eeee_proverka_col_fire = self.proverka_col_fire
 
     def update(self):
         self.index += 1
@@ -73,23 +74,21 @@ class Fire(pygame.sprite.Sprite):  # костёр
         screen.blit(self.image, (790, 370))
 
     def colizion_f(self, x, y):
-
+        self.proverka_col_fire = 0
+        Fire.colizion_f.eeee_proverka_col_fire = self.proverka_col_fire
         self.x_coord_person = x
         self.y_coord_person = y
         fire_rect = pygame.Rect(900, 420, 50, 50)
         pers_rect = pygame.image.load(
-            # это коллизая персонажа, первый параметр - картинка, как я понял она просто для понимания высоты и шиниры, второй и третий координаты
             f"image/low_settings/person_take-throw/down/person_take-throw_down0001.png").get_rect(
             topleft=(self.x_coord_person, self.y_coord_person))
         collide_p_f = pygame.Rect.colliderect(fire_rect, pers_rect)
         if collide_p_f:
             sound_of_taking()
             self.proverka_col_fire = 1
-            Fire.colizion_f.proverka_col_fire = self.proverka_col_fire
+            Fire.colizion_f.eeee_proverka_col_fire = self.proverka_col_fire
 
 
 def sound_of_taking():
     take_s = pygame.mixer.Sound('other/sounds/take-throw.mp3')
     take_s.play()
-
-

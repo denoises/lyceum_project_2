@@ -111,6 +111,7 @@ def main():
                     if el_in_the_hands == 0:
                         x = Person.rendering.x_coodr_person_osn
                         y = Person.rendering.y_coodr_person_osn
+                        print('spase')
                         print(x, y)
                         treeeeee.col_proverka(x, y)
                         player_take_anim = True
@@ -118,8 +119,10 @@ def main():
                         x = Person.rendering.x_coodr_person_osn
                         y = Person.rendering.y_coodr_person_osn
                         fire_cl.colizion_f(x, y)
-                        ok_fire = Fire.colizion_f.proverka_col_fire
-                        if ok_fire == 1:
+                        f = Fire.colizion_f.eeee_proverka_col_fire
+                        print(f)
+                        if f == 1:
+                            print('in fire colizion')
                             player_throw_anim = True
 
             # что то на подобии ускорения, нужно допиливать
@@ -137,7 +140,6 @@ def main():
         treeeeee.render_tree()
         # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу
         if player_take_anim == True:  # анимка взятия
-
             n_a_p += 1
             player.take_el(which_way)
             if n_a_p >= 9:
@@ -146,7 +148,6 @@ def main():
                 player.rendering()
 
         if player_throw_anim == True:  # анимка кидания
-
             n_a_p += 1
             player.throw_el(which_way)
             if n_a_p >= 9:
