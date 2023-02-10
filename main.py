@@ -112,32 +112,37 @@ def main():
                 which_way = 'right'
                 number_clikov += 1
                 player.update(which_way, speed_pers)
-            if event.type == pygame.KEYDOWN:  # Пробел - рубка дерева
+            if event.type == pygame.KEYDOWN:  # Если пробел нажат
                 if event.key == pygame.K_SPACE:
-                    el_in_the_hands = Person.rendering.elll_in_the_hands
-                    if el_in_the_hands == 0:
-                        x = Person.rendering.x_coodr_person_osn
-                        y = Person.rendering.y_coodr_person_osn
-                        x_rect = Person.rendering.x_coodr_person_rect
-                        y_rect = Person.rendering.y_coodr_person_rect
-                        print('spase')
-                        print(x, y)
-                        treeeeee.col_proverka(x, y, x_rect, y_rect)
-                        col_p_pl__1 = Tree_class.col_proverka.col_p_pl
-                        if col_p_pl__1 == 1:
-                            player_take_anim = True
-                    elif el_in_the_hands == 1:
-                        x = Person.rendering.x_coodr_person_osn
-                        y = Person.rendering.y_coodr_person_osn
-                        x_rect = Person.rendering.x_coodr_person_rect
-                        y_rect = Person.rendering.y_coodr_person_rect
-                        fire_cl.colizion_f(x, y, x_rect, y_rect)
-                        f = Fire.colizion_f.eeee_proverka_col_fire
-                        print(f)
-                        if f == 1:
-                            print('in fire colizion')
-                            player_throw_anim = True
-                            scores += 40
+                    if player_throw_anim == False and player_take_anim == False:  # если нет анимации
+                        el_in_the_hands = Person.rendering.elll_in_the_hands  # дерево в руке
+                        if el_in_the_hands == 0:  # нет в руках
+                            x = Person.rendering.x_coodr_person_osn
+                            y = Person.rendering.y_coodr_person_osn
+                            x_rect = Person.rendering.x_coodr_person_rect
+                            y_rect = Person.rendering.y_coodr_person_rect
+                            print('spase')
+                            print(x, y)
+
+                            treeeeee.col_proverka(x, y, x_rect, y_rect)  # проверяю стоит ли персонаж на дереве
+                            col_p_pl__1 = Tree_class.col_proverka.col_p_pl
+                            if col_p_pl__1 == 1:  # если стоит на дереве
+                                player_take_anim = True  # запускаю анимацию
+                                el_in_the_hands = 1
+                        elif el_in_the_hands == 1:  # если дерево в руках
+                            x = Person.rendering.x_coodr_person_osn
+                            y = Person.rendering.y_coodr_person_osn
+                            x_rect = Person.rendering.x_coodr_person_rect
+                            y_rect = Person.rendering.y_coodr_person_rect
+
+                            fire_cl.colizion_f(x, y, x_rect, y_rect)  # проверяю стоит ли на костре
+                            f = Fire.colizion_f.eeee_proverka_col_fire
+                            print(f)
+                            if f == 1:
+                                print('in fire colizion')
+                                player_throw_anim = True  # запускаю анимацию
+                                scores += 40  # прибавляю очки
+                                el_in_the_hands = 0
 
             # что то на подобии ускорения, нужно допиливать
             if number_clikov > 10:
@@ -156,15 +161,17 @@ def main():
 
         if player_take_anim == True:  # анимка взятия
             n_a_p += 1
-            player.take_el(which_way)
-            if n_a_p >= 9:
+            player.take_el(which_way)  # рендер анимации
+            player.rendering()
+            if n_a_p >= 9:  # длинна рендера
                 n_a_p = 0
                 player_take_anim = False
 
         if player_throw_anim == True:  # анимка кидания
             n_a_p_th += 1
-            player.throw_el(which_way)
-            if n_a_p_th >= 9:
+            player.throw_el(which_way)  # рендер анимации
+            player.rendering()
+            if n_a_p_th >= 9:  # длинна рендера
                 n_a_p_th = 0
                 player_throw_anim = False
 

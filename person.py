@@ -186,6 +186,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.take = 1
         self.index_take += 1
         self.in_the_hands = 1
+        self.throw = 0
 
         if self.index_take >= 9:
             self.index_take = 0
@@ -202,6 +203,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         elif self.which_way == 'right':
             self.images_person_now_throw = self.images_person_take_throw_right
         self.throw = 1
+        self.take = 0
         self.index_throw += 1
         self.in_the_hands = 0
 
@@ -213,6 +215,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         if self.take == 1:
             self.image_pers_take = pygame.transform.scale(self.images_person_now_take[self.index_take], (400, 400))
             screen.blit(self.image_pers_take, (self.x_coodr_person_osn, self.y_coodr_person_osn))
+            self.in_the_hands = 1
             Person.rendering.elll_in_the_hands = self.in_the_hands
             Person.rendering.x_coodr_person_rect = self.x_coord_rect
             Person.rendering.y_coodr_person_rect = self.y_coord_rect
@@ -220,6 +223,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         elif self.throw == 1:
             self.image_pers_throw = pygame.transform.scale(self.images_person_now_throw[self.index_throw], (400, 400))
             screen.blit(self.image_pers_throw, (self.x_coodr_person_osn, self.y_coodr_person_osn))
+            self.in_the_hands = 0
             Person.rendering.elll_in_the_hands = self.in_the_hands
             Person.rendering.x_coodr_person_rect = self.x_coord_rect
             Person.rendering.y_coodr_person_rect = self.y_coord_rect

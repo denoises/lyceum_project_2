@@ -78,7 +78,7 @@ class Fire(pygame.sprite.Sprite):  # костёр
         Fire.colizion_f.eeee_proverka_col_fire = self.proverka_col_fire
         self.x_coord_person = x
         self.y_coord_person = y
-        fire_rect = pygame.Rect(900, 420, 50, 50)
+        fire_rect = pygame.Rect(910, 440, 100, 100)
         pers_rect = pygame.Rect(x_rect, y_rect, 90, 90)
         collide_p_f = pygame.Rect.colliderect(fire_rect, pers_rect)
         if collide_p_f:
