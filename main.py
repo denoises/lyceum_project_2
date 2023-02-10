@@ -74,6 +74,7 @@ def main():
     treeeeee.tree(screen)
     light_cl = Light()
     n_a_p = 0
+    n_a_p_th = 0
     running = True
     pygame.init()
     player_take_anim = False
@@ -161,10 +162,10 @@ def main():
                 player_take_anim = False
 
         if player_throw_anim == True:  # анимка кидания
-            n_a_p += 1
+            n_a_p_th += 1
             player.throw_el(which_way)
-            if n_a_p >= 9:
-                n_a_p = 0
+            if n_a_p_th >= 9:
+                n_a_p_th = 0
                 player_throw_anim = False
 
         treeeeee.render_tree()

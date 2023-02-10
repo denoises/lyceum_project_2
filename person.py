@@ -20,6 +20,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.y_coodr_person_osn = 500
         self.speed_pers = 5
         self.take = 0  # если 1 то в данный момент берёт елку
+        self.throw = 0
         self.in_the_hands = 0  # если 1 то несёт елуку
         self.throw = 0  # если 1 то кидает елуку в костёр
         self.index_take = 0
@@ -199,7 +200,7 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         elif self.which_way == 'left':
             self.images_person_now_throw = self.images_person_take_throw_left
         elif self.which_way == 'right':
-            self.images_person_now_throw = self.images_person_with_tree_right
+            self.images_person_now_throw = self.images_person_take_throw_right
         self.throw = 1
         self.index_throw += 1
         self.in_the_hands = 0
