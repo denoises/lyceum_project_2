@@ -73,15 +73,13 @@ class Fire(pygame.sprite.Sprite):  # костёр
         self.image = pygame.transform.scale(self.fire_image[self.index], (400, 400))
         screen.blit(self.image, (790, 370))
 
-    def colizion_f(self, x, y):
+    def colizion_f(self, x, y, x_rect, y_rect):
         self.proverka_col_fire = 0
         Fire.colizion_f.eeee_proverka_col_fire = self.proverka_col_fire
         self.x_coord_person = x
         self.y_coord_person = y
         fire_rect = pygame.Rect(900, 420, 50, 50)
-        pers_rect = pygame.image.load(
-            f"image/low_settings/person_take-throw/down/person_take-throw_down0001.png").get_rect(
-            topleft=(self.x_coord_person, self.y_coord_person))
+        pers_rect = pygame.Rect(x_rect, y_rect, 90, 90)
         collide_p_f = pygame.Rect.colliderect(fire_rect, pers_rect)
         if collide_p_f:
             sound_of_taking()

@@ -25,6 +25,11 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         self.index_take = 0
         self.index_throw = 0
 
+        self.x_coord_rect = 917
+        self.y_coord_rect = 535
+        Person.rendering.x_coodr_person_rect = self.x_coord_rect
+        Person.rendering.y_coodr_person_rect = self.y_coord_rect
+
         #
         #
         # ХОДИТ И ДУМАЕТ ЧТО СВОРОВАТЬ:
@@ -41,22 +46,22 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
         # down
         self.images_person_down = [pygame.image.load(f"image/low_settings/person/down/down00{i:02d}.png") for i in
                                    range(1, 50)]
-        # left_up
-        self.images_person_left_up = [pygame.image.load(f"image/low_settings/person/left up/left_up00{i:02d}.png") for i
-                                      in
-                                      range(1, 50)]
-        # left_down
-        self.images_person_left_down = [pygame.image.load(f"image/low_settings/person/left down/left_down00{i:02d}.png")
-                                        for i in
-                                        range(1, 50)]
-        # right_up
-        self.images_person_right_up = [pygame.image.load(f"image/low_settings/person/right up/right_up00{i:02d}.png")
-                                       for i in
-                                       range(1, 50)]
-        # right_down
-        self.images_person_right_down = [
-            pygame.image.load(f"image/low_settings/person/right down/right_down00{i:02d}.png") for i in
-            range(1, 50)]
+        # # left_up
+        # self.images_person_left_up = [pygame.image.load(f"image/low_settings/person/left up/left_up00{i:02d}.png") for i
+        #                               in
+        #                               range(1, 50)]
+        # # left_down
+        # self.images_person_left_down = [pygame.image.load(f"image/low_settings/person/left down/left_down00{i:02d}.png")
+        #                                 for i in
+        #                                 range(1, 50)]
+        # # right_up
+        # self.images_person_right_up = [pygame.image.load(f"image/low_settings/person/right up/right_up00{i:02d}.png")
+        #                                for i in
+        #                                range(1, 50)]
+        # # right_down
+        # self.images_person_right_down = [
+        #     pygame.image.load(f"image/low_settings/person/right down/right_down00{i:02d}.png") for i in
+        #     range(1, 50)]
         #
         #
         #
@@ -102,44 +107,55 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
             if self.which_way == 'up':
                 self.images_person_now = self.images_person_up
                 self.y_coodr_person_osn -= self.speed_pers
+                self.y_coord_rect -= self.speed_pers
             elif self.which_way == 'down':
                 self.y_coodr_person_osn += self.speed_pers
+                self.y_coord_rect += self.speed_pers
                 self.images_person_now = self.images_person_down
             elif self.which_way == 'left':
                 self.x_coodr_person_osn -= self.speed_pers
+                self.x_coord_rect -= self.speed_pers
                 self.images_person_now = self.images_person_left
             elif self.which_way == 'right':
                 self.x_coodr_person_osn += self.speed_pers
+                self.x_coord_rect += self.speed_pers
                 self.images_person_now = self.images_person_right
-            elif self.which_way == 'right_up':
-                self.x_coodr_person_osn += self.speed_pers
-                self.images_person_now = self.images_person_right_up
-            elif self.which_way == 'right_down':
-                self.x_coodr_person_osn += self.speed_pers
-                self.images_person_now = self.images_person_right_down
-            elif self.which_way == 'left_up':
-                self.x_coodr_person_osn -= self.speed_pers
-                self.images_person_now = self.images_person_left_up
-            elif self.which_way == 'left_down':
-                self.x_coodr_person_osn -= self.speed_pers
-                self.images_person_now = self.images_person_left_down
+            # elif self.which_way == 'right_up':
+            #     self.x_coodr_person_osn += self.speed_pers
+            #     self.images_person_now = self.images_person_right_up
+            # elif self.which_way == 'right_down':
+            #     self.x_coodr_person_osn += self.speed_pers
+            #     self.images_person_now = self.images_person_right_down
+            # elif self.which_way == 'left_up':
+            #     self.x_coodr_person_osn -= self.speed_pers
+            #     self.images_person_now = self.images_person_left_up
+            # elif self.which_way == 'left_down':
+            #     self.x_coodr_person_osn -= self.speed_pers
+            #     self.images_person_now = self.images_person_left_down
             else:
                 self.images_person_now = self.images_person_down  # стандарт
         else:
             if self.which_way == 'up':
                 self.images_person_now = self.images_person_with_tree_up
                 self.y_coodr_person_osn -= self.speed_pers
+                self.y_coord_rect -= self.speed_pers
             elif self.which_way == 'down':
                 self.y_coodr_person_osn += self.speed_pers
+                self.y_coord_rect += self.speed_pers
                 self.images_person_now = self.images_person_with_tree_down
             elif self.which_way == 'left':
                 self.x_coodr_person_osn -= self.speed_pers
+                self.x_coord_rect -= self.speed_pers
                 self.images_person_now = self.images_person_with_tree_left
             elif self.which_way == 'right':
+                self.x_coord_rect += self.speed_pers
                 self.x_coodr_person_osn += self.speed_pers
                 self.images_person_now = self.images_person_with_tree_right
             else:
                 self.images_person_now = self.images_person_with_tree_down  # стандарт
+
+        # pers_recttt = pygame.Rect(self.x_coord_rect, self.y_coord_rect, 90, 90)
+        # Person.rendering.elll_in_the_hands
 
         if self.speed_pers == 3:
             self.index += 1
@@ -197,16 +213,22 @@ class Person(pygame.sprite.Sprite):  # маленький лесорубик
             self.image_pers_take = pygame.transform.scale(self.images_person_now_take[self.index_take], (400, 400))
             screen.blit(self.image_pers_take, (self.x_coodr_person_osn, self.y_coodr_person_osn))
             Person.rendering.elll_in_the_hands = self.in_the_hands
+            Person.rendering.x_coodr_person_rect = self.x_coord_rect
+            Person.rendering.y_coodr_person_rect = self.y_coord_rect
 
         elif self.throw == 1:
             self.image_pers_throw = pygame.transform.scale(self.images_person_now_throw[self.index_throw], (400, 400))
             screen.blit(self.image_pers_throw, (self.x_coodr_person_osn, self.y_coodr_person_osn))
             Person.rendering.elll_in_the_hands = self.in_the_hands
+            Person.rendering.x_coodr_person_rect = self.x_coord_rect
+            Person.rendering.y_coodr_person_rect = self.y_coord_rect
 
         else:
             self.image_pers = pygame.transform.scale(self.images_person_now[self.index], (400, 400))
             screen.blit(self.image_pers, (self.x_coodr_person_osn, self.y_coodr_person_osn))
             Person.rendering.x_coodr_person_osn = self.x_coodr_person_osn
+            Person.rendering.x_coodr_person_rect = self.x_coord_rect
+            Person.rendering.y_coodr_person_rect = self.y_coord_rect
             Person.rendering.y_coodr_person_osn = self.y_coodr_person_osn
             Person.rendering.elll_in_the_hands = self.in_the_hands
 

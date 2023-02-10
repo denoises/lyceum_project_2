@@ -66,6 +66,7 @@ def main():
     print(name_player)
     aaa = 0
     board = Board(18, 9)
+    col_p_pl = 0
     # clouds = Clouds()
     fire_cl = Fire()
     board.set_view(0, 0, 150)
@@ -116,14 +117,20 @@ def main():
                     if el_in_the_hands == 0:
                         x = Person.rendering.x_coodr_person_osn
                         y = Person.rendering.y_coodr_person_osn
+                        x_rect = Person.rendering.x_coodr_person_rect
+                        y_rect = Person.rendering.y_coodr_person_rect
                         print('spase')
                         print(x, y)
-                        treeeeee.col_proverka(x, y)
-                        player_take_anim = True
-                    else:
+                        treeeeee.col_proverka(x, y, x_rect, y_rect)
+                        col_p_pl__1 = Tree_class.col_proverka.col_p_pl
+                        if col_p_pl__1 == 1:
+                            player_take_anim = True
+                    elif el_in_the_hands == 1:
                         x = Person.rendering.x_coodr_person_osn
                         y = Person.rendering.y_coodr_person_osn
-                        fire_cl.colizion_f(x, y)
+                        x_rect = Person.rendering.x_coodr_person_rect
+                        y_rect = Person.rendering.y_coodr_person_rect
+                        fire_cl.colizion_f(x, y, x_rect, y_rect)
                         f = Fire.colizion_f.eeee_proverka_col_fire
                         print(f)
                         if f == 1:
@@ -143,7 +150,6 @@ def main():
 
         my_group_for_fire.update()  # АААА горим
 
-        treeeeee.render_tree()
         # незнаю как лучше, кгода персонаж ходит по ёлкам или ёлки по персонажу
         player.rendering()
 
@@ -161,6 +167,7 @@ def main():
                 n_a_p = 0
                 player_throw_anim = False
 
+        treeeeee.render_tree()
         # clouds.render()
 
         if scores < 850:

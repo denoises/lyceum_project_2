@@ -23,6 +23,11 @@ class Tree_class:  # это что, елка?
     def __init__(self, min_x_tree, max_x_tree, min_y_tree, max_y_tree):
         global x_pers_g, y_pers_g
 
+        self.cal_tree_max = random.randint(70, 140)  # количество елок
+
+        self.col_p_pl_11111 = 0
+        Tree_class.col_proverka.col_p_pl = self.col_p_pl_11111
+
         self.min_x_tree = min_x_tree
         self.max_x_tree = max_x_tree
         self.min_y_tree = min_y_tree
@@ -47,8 +52,6 @@ class Tree_class:  # это что, елка?
                       pygame.image.load('image/low_settings/tree/el0010.png').convert_alpha(),
                       ]
 
-        self.cal_tree_max = random.randint(40, 100)  # количество елок
-
         self.cal_tree_now = 0
         self.tree_image_random_scale = []
         self.random_x_cooord = []
@@ -58,7 +61,7 @@ class Tree_class:  # это что, елка?
         self.num_el = 0
         while self.cal_tree_now < self.cal_tree_max:
             tree_image_random = tree_image[random.randint(0, 9)]
-            a = random.randint(170, 240)
+            a = random.randint(200, 270)
             self.tree_image_random_scale.append(
                 pygame.transform.scale(tree_image_random, (a, a)))  # рандомный размер елок
 
@@ -85,25 +88,26 @@ class Tree_class:  # это что, елка?
                         (self.random_x_cooord[n], self.random_y_cooord[n]))  # отрисовка ёлок
             n += 1
 
-    def col_proverka(self, x, y):
+    def col_proverka(self, x, y, x_rect, y_rect):
         n = 0
         self.x_coord_person = x
         self.y_coord_person = y
+        self.x_rect = x_rect
+        self.y_rect = y_rect
 
         while n < self.cal_tree_max:
             print(self.x_coord_person, self.y_coord_person)
-            pers_rect = pygame.image.load(
-                # это коллизая персонажа, первый параметр - картинка, как я понял она просто для понимания высоты и шиниры, второй и третий координаты
-                f"image/low_settings/person_take-throw/down/person_take-throw_down0001.png").get_rect(
-                topleft=(self.x_coord_person, self.y_coord_person))
-            el_rect = self.tree_image_random_scale[n].get_rect(  # тоже самое с ёлкой
+            pers_rect = pygame.Rect(self.x_rect, self.y_rect, 90, 90)
+            el_rect = self.tree_image_random_scale[n].get_rect(
                 topleft=(self.random_x_cooord[n], self.random_y_cooord[n]))
 
-            if el_rect.colliderect(pers_rect):  # коллизия елки пересеккает персонажа то
+            if pygame.Rect.colliderect(pers_rect, el_rect):  # коллизия елки пересеккает персонажа то
                 self.tree_image_random_scale.pop(n)  # вычеркиваем всё о этой ёлке из списка
                 self.random_x_cooord.pop(n)
                 self.random_y_cooord.pop(n)
                 self.cal_tree_max -= 1
+                self.col_p_pl_11111 = 1
+                Tree_class.col_proverka.col_p_pl = self.col_p_pl_11111
                 sound_of_taking()
                 break
             n += 1
